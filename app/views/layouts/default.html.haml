@@ -1,0 +1,41 @@
+!!!Transitional
+%html{:xmlns => "http://www.w3.org/1999/xhtml", 'xml:lang' => "pl", :lang => "pl"}
+  %head
+    %meta{'http-equiv' => "Content-Type", :content => "text/html; charset=utf-8"}
+    %title WiDz - Wirtualny Dziennik
+    = stylesheet_link_tag 'admin'
+    = javascript_include_tag :defaults
+  %body
+    #wrapper
+      #top_bar
+        %div{:style => "float:left"}
+          = image_tag 'widz_logo.png'
+        - if logged_in?
+          %div{:style => "float:right"}
+            %p
+              Witaj! Jesteś zalogowany jako
+              %b= current_user.name + " " + current_user.lastname
+              = "(" + current_user.roles.map(&:name).map{|i| human_role(i)}.join(", ") + ")"
+              = link_to "Wyloguj się", :logout, :class => "btn_logout"
+      #columns.clearfix
+        - if logged_in?
+          .menubg
+            = image_tag 'admin/top.jpg', :class => "top flt"
+            %ul.menu
+              %li= link_to "Strona główna", root_path
+              %li= link_to "Moje dane", users_path
+            = image_tag 'admin/bot.jpg', :class => "bot flt"
+            = image_tag 'admin/top.jpg', :class => "top flt"
+            %ul.menu
+              %li= link_to "Moje dane", users_path
+              %li= link_to "Moje dane", users_path
+              %li= link_to "Moje dane", users_path
+            = image_tag 'admin/bot.jpg', :class => "bot flt"
+        #side
+          #content
+            - if flash[:notice]
+              #info= flash[:notice]
+            = yield
+    #footer
+      %p
+        %a{:href => "#", :class => "btn_up", :title => "do góry"}

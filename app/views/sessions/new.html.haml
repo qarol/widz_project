@@ -1,0 +1,30 @@
+- form_tag session_path, :id => 'login_field' do
+  %fieldset
+    %legend Logowanie
+    = label_tag 'login', "Login"
+    = text_field_tag 'login', @login
+    %br
+    = label_tag 'password', "Hasło"
+    = password_field_tag 'password', nil
+    %br
+    = label_tag 'remember_me', 'Zapamiętaj mnie'
+    = check_box_tag 'remember_me', '1', @remember_me
+    %br
+    = submit_tag 'Zaloguj się', :class => 'submit'
+
+%p Witaj, możesz się zalogować jako:
+%p
+  %b student : student
+  by mieć uprawnienia ucznia
+%p
+  %b admin : adminn
+  by mieć uprawnienia administratora
+%p
+  %b parent : parent
+  by mieć uprawnienia opiekuna
+%p
+  %b teacher : teacher
+  by mieć uprawnienia nauczyciela
+%p
+  %b empty : emptyy
+  by mieć uprawnienia osoby bez grupy
