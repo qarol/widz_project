@@ -1,0 +1,57 @@
+/* 
+    Document   : user
+    Created on : 2009-06-26, 19:46:20
+    Author     : qarol
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+#all {
+/*    width: 1000px;*/
+}
+
+#orange_line {
+    background-color: orange;
+    height: 10px;
+}
+
+#left {
+/*  width: 200px; */
+    float: left;
+    overflow: hidden;
+    padding: 10px;
+}
+
+#side {
+/*  width: 700px; */
+    float: left;
+    overflow: hidden;
+    background-color: #fff;
+
+}
+
+#info {
+    padding: 10px;
+}
+
+#content {
+    padding: 10px;
+}
+
+#foot {
+    clear: both;
+    background-color: #e2e3e5;
+    color: #313234;
+    text-align: center;
+    font-size: 11px;
+    padding: 8px;
+}
