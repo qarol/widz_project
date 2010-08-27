@@ -1,0 +1,29 @@
+<div id="box">
+  <div id="box_title">Moje dane</div>
+  <div id="box_content">
+    <table>
+      <tr id="even">
+        <td style="width:200px; padding:10px; text-align:right;"><b>Imię i nazwisko:</b></td>
+        <td style="padding:10px; text-align:left;"><%=h @user.name + " " + @user.lastname %></td>
+      </tr>
+      
+      <tr id="odd">
+        <td style="width:200px; padding:10px; text-align:right;"><b>Login:</b></td>
+        <td style="padding:10px; text-align:left;"><%=h @user.login %></td>
+      </tr>
+      
+      <tr id="even">
+        <td style="width:200px; padding:10px; text-align:right;"><b>Email:</b></td>
+        <td style="padding:10px; text-align:left;"><%=h @user.email %></td>
+      </tr>
+
+      <tr id="odd">
+        <td style="width:200px; padding:10px; text-align:right;"><b>Należysz do grup:</b></td>
+        <td style="padding:10px; text-align:left;"><%=h current_user.roles.map(&:name).map{|i| human_role(i)}.sort.join(", ") %></td>
+      </tr>
+    </table>
+    <br>
+        <%= link_to 'Wstecz', :back %> |
+        <%= link_to 'Edytuj informacje', edit_users_path if @user==current_user %>
+  </div>
+</div>
