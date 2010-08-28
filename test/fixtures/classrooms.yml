@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  hall: MyString
+  year: 
+  name_of_class: MyString
+  user: 
+
+two:
+  hall: MyString
+  year: 
+  name_of_class: MyString
+  user: 
