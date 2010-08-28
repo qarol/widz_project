@@ -44,20 +44,19 @@ class User < ActiveRecord::Base
   attr_accessible :login, :email, :name, :password, :password_confirmation
 
   def is_admin?
-    self.has_role?("admin")
+    self.roles.map(&:name).include?("admin")
   end
 
   def is_student?
-    self.has_role?("student")
+    self.roles.map(&:name).include?("student")
   end
 
   def is_parent?
-    self.has_role?("parent")
+    self.roles.map(&:name).include?("parent")
   end
 
   def is_teacher?
     self.roles.map(&:name).include?("teacher")
-    #self.has_role?("teacher")
   end
 
   # Activates the user in the database.

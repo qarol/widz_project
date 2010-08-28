@@ -7,9 +7,21 @@
         %th E-mail
         %th Imię
         %th Nazwisko
+        %th Uczeń
+        %th Opiekun
+        %th Nauczyciel
+        %th Administrator
+        %th Pokaż
+        %th Edytuj
       - for user in @users
         %tr{:id => cycle('even','odd')}
           %td= h user.login
           %td= h user.email
           %td= h user.name
           %td= h user.lastname
+          %td= image_tag "admin/success.png" if user.is_student?
+          %td= image_tag "admin/success.png" if user.is_parent?
+          %td= image_tag "admin/success.png" if user.is_teacher?
+          %td= image_tag "admin/success.png" if user.is_admin?
+          %td= link_to "Pokaż", admin_user_path(user)
+          %td= link_to "Edytuj", edit_admin_user_path(user)

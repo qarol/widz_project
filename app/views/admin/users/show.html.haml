@@ -1,0 +1,28 @@
+#box
+  #box_title Moje dane
+  #box_content
+    %table
+      %tr#even
+        %td.form_title
+          %b Imię i nazwisko
+        %td.form_content
+          =h @user.name + " " + @user.lastname
+      %tr#odd
+        %td.form_title
+          %b Login
+        %td.form_content
+          =h @user.login
+      %tr#even
+        %td.form_title
+          %b Email
+        %td.form_content
+          =h @user.email
+      %tr#odd
+        %td.form_title
+          %b Należy do grup
+        %td.form_content
+          =h @user.roles.map(&:name).map{|i| human_role(i)}.sort.join(", ")
+    %br
+    = link_to 'Wstecz', :back
+    |
+    = link_to 'Edytuj informacje', edit_admin_user_path(@user)
