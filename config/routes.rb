@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.admin 'admin', :controller => 'admin/admin'
   map.namespace :admin do |admin|
     admin.resources :users
+    admin.resources :classrooms
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -52,6 +52,11 @@ input,select {  border: 1px #aaa solid; font-size: 1em; padding: 2px 3px; width:
 
 #even { background-color:#ececec }
 #odd { }
+.even { background-color:#ececec }
+.odd { }
+
+.form_title { width:200px; padding:10px; text-align:right; }
+.form_content { padding:10px; text-align:left; }
 
 #content { margin: 15px 0 0 25px; width:95% }
 #content label { margin: 10px 0 3px 0; font-size: 1.1em; color: #2b2b2b; }

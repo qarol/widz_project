@@ -1,0 +1,14 @@
+#box
+  #box_title Zmień parametry klasy
+  #box_content
+    - form_for [:admin, @classroom] do |f|
+      %table
+        %tr.even
+          %th.form_title Sala:
+          %td.form_content= f.text_field :hall
+        %tr.odd
+          %th.form_title Nazwa klasy:
+          %td.form_content= f.text_field :name_of_class
+      = f.submit "Zapisz", :class => 'submit'
+    %br
+    = link_to 'Wstecz', admin_classrooms_path

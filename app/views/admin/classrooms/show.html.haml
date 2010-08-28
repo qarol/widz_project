@@ -1,0 +1,12 @@
+#box
+  #box_title Dane klasy
+  #box_content
+    %table
+      %tr.even
+        %th.form_title Sala:
+        %td.form_content= @classroom.hall
+      %tr.odd
+        %th.form_title Nazwa klasy:
+        %td.form_content= @classroom.name_of_class
+    %br
+    = link_to 'Wstecz', admin_classrooms_path
