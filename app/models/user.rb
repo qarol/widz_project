@@ -2,6 +2,10 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
+  has_many :parent_child_relationships, :class_name => "ParentChild", :foreign_key => :parent_id
+  has_one :child_parent_relationship, :class_name => "ParentChild", :foreign_key => :child_id
+  has_many :children, :through => :parent_child_relationships
+  has_one :parent, :through => :child_parent_relationship
 
   def has_role?(role_in_question)
     @_list ||= self.roles.collect(&:name)
