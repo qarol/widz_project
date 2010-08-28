@@ -56,7 +56,8 @@ class User < ActiveRecord::Base
   end
 
   def is_teacher?
-    self.has_role?("teacher")
+    self.roles.map(&:name).include?("teacher")
+    #self.has_role?("teacher")
   end
 
   # Activates the user in the database.

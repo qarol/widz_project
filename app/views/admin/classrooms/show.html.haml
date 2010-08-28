@@ -8,5 +8,11 @@
       %tr.odd
         %th.form_title Nazwa klasy:
         %td.form_content= @classroom.name_of_class
+      %tr.even
+        %th.form_title Rok utworzenia
+        %td.form_content= h @classroom.year.try(:year)
+      %tr.odd
+        %th.form_title Wychowawca:
+        %td.form_content= h @classroom.user_id
     %br
     = link_to 'Wstecz', admin_classrooms_path
