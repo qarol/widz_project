@@ -1,0 +1,15 @@
+#box
+  #box_title Użytkownicy
+  #box_content
+    %table
+      %tr
+        %th Login
+        %th E-mail
+        %th Imię
+        %th Nazwisko
+      - for user in @users
+        %tr{:id => cycle('even','odd')}
+          %td= h user.login
+          %td= h user.email
+          %td= h user.name
+          %td= h user.lastname
