@@ -13,12 +13,13 @@ class Admin::UsersController < Admin::AdminController
 
   def update_family_ties
     @user = User.find(params[:id])
-    unless params[:user][:parents].blank?
+    unless params[:user][:parents].blank? && params[:user][:children].blank?
       @user.parents << User.find(params[:user][:parents]) unless params[:user][:parents].blank?
+      @user.children << User.find(params[:user][:children]) unless params[:user][:children].blank?
       flash[:notice] = 'Wprowadzono zmiany'
       redirect_to [:admin, @user]
     else
-      flash.now[:error] = 'Wybierz opiekuna, by dodać'
+      flash.now[:error] = 'Wybierz poprawne pole, by dodać'
       render :action => 'edit'
     end
   end
@@ -40,4 +41,9 @@ class Admin::UsersController < Admin::AdminController
     redirect_to [:admin, @user]
   end
 
+  def delete_child
+    @user = User.find(params[:id])
+    @user.children.delete(User.find(params[:child_id]))
+    redirect_to [:admin, @user]
+  end
 end

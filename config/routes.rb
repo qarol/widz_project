@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.admin 'admin', :controller => 'admin/admin'
   map.namespace :admin do |admin|
     admin.resources :users,
-                    :collection => { :delete_parent => :delete },
+                    :collection => { :delete_parent => :delete, :delete_child => :delete },
                     :member => { :update_family_ties => :put }
     admin.resources :classrooms
   end
