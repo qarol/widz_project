@@ -4,6 +4,8 @@ class CreateClassroomUsers < ActiveRecord::Migration
       t.references :user
       t.references :classroom
     end
+    add_index "classroom_users", "user_id"
+    add_index "classroom_users", "classroom_id"
   end
 
   def self.down

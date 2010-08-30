@@ -4,10 +4,13 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
   
   # relacje rodzic-dziecko i dziecko-rodzic
-  has_many :parent_child_relationships, :class_name => "ParentChild", :foreign_key => :parent_id
-  has_one :child_parent_relationship, :class_name => "ParentChild", :foreign_key => :child_id
-  has_many :children, :through => :parent_child_relationships
-  has_one :parent, :through => :child_parent_relationship
+  has_and_belongs_to_many :children, :class_name => "User", :join_table => "parent_children", :association_foreign_key => "parent_id", :foreign_key => "child_id"
+  has_and_belongs_to_many :parents, :class_name => "User", :join_table => "parent_children", :association_foreign_key => "child_id", :foreign_key => "parent_id"
+  #has_many :parent_child_relationships, :class_name => "ParentChild", :foreign_key => :parent_id
+  #has_one :child_parent_relationship, :class_name => "ParentChild", :foreign_key => :child_id
+  #has_many :children, :through => :parent_child_relationships
+  #has_one :parent, :through => :child_parent_relationship
+  accepts_nested_attributes_for :parents, :children#, :child_parent_relationship, :parent_child_relationships 
 
   # relacje uczeń-klasa
   has_one :classroom_user
@@ -30,6 +33,10 @@ class User < ActiveRecord::Base
 
   validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
   validates_length_of       :name,     :maximum => 100
+  validates_presence_of     :name
+
+  validates_presence_of     :lastname
+  validates_length_of       :lastname,     :maximum => 100
 
   validates_presence_of     :email
   validates_length_of       :email,    :within => 6..100 #r@a.wk
@@ -41,7 +48,7 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation
+  attr_accessible :login, :email, :name, :lastname, :password, :password_confirmation, :parent, :child
 
   def is_admin?
     self.roles.map(&:name).include?("admin")

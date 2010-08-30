@@ -10,7 +10,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.admin 'admin', :controller => 'admin/admin'
   map.namespace :admin do |admin|
-    admin.resources :users
+    admin.resources :users,
+                    :collection => { :delete_parent => :delete }
     admin.resources :classrooms
   end
 

@@ -35,6 +35,8 @@
           #content
             - if flash[:notice]
               #info= flash[:notice]
+            - if flash[:error]
+              #error= flash[:error]
             = yield
     #footer
       %p

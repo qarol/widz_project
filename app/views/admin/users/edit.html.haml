@@ -1,0 +1,37 @@
+#box
+  #box_title Zmień parametry użytkownika
+  #box_content
+    - form_for [:admin, @user] do |f|
+      = f.error_messages
+      %h1 Dane użytkownika
+      %table
+        %tr.even
+          %th.form_title Login:
+          %td.form_content= h @user.login
+        %tr.odd
+          %th.form_title Imię:
+          %td.form_content= f.text_field :name
+        %tr.even
+          %th.form_title Nazwisko:
+          %td.form_content= f.text_field :lastname
+        %tr.odd
+          %th.form_title E-mail
+          %td.form_content= f.text_field :email
+      = f.submit "Zapisz", :class => 'submit'
+
+    - if @user.is_student?
+      - form_for [:admin, @user] do |g|
+        %br
+        %h1 Powiązania rodzinne
+        %table
+          %tr.even
+            %th.form_title Opiekun(-owie):
+            %td.form_content
+              = @user.parents.map{|p| (link_to p.name.capitalize + " " + p.lastname.capitalize + " (" + p.login + ")", admin_user_path(p)) + " " + (link_to "[usuń]", delete_parent_admin_users_path(:id => @user, :parent_id => p.id), :confirm => "Jesteś tego pewien?", :method => 'delete_parent')}.sort.join("<br>")
+          %tr.odd
+            %th.form_title Dodaj opiekuna:
+            %td.form_content
+              = g.select :parents, (User.all - @user.parents).select{|u| u.is_parent?}.map{|u| [u.name.capitalize + " " + u.lastname.capitalize, u.id]}, :include_blank => '-- Wybierz opiekuna --'
+              = g.submit "Dodaj", :class => 'submit'
+    %br
+    = link_to 'Wstecz', admin_users_path

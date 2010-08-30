@@ -3,26 +3,26 @@
   #box_content
     %table
       %tr#even
-        %td.form_title
-          %b Imię i nazwisko
+        %th.form_title Imię i nazwisko
         %td.form_content
           =h @user.name + " " + @user.lastname
       %tr#odd
-        %td.form_title
-          %b Login
+        %th.form_title Login
         %td.form_content
           =h @user.login
       %tr#even
-        %td.form_title
-          %b Email
+        %th.form_title Email
         %td.form_content
           =h @user.email
       %tr#odd
-        %td.form_title
-          %b Należy do grup
+        %th.form_title Należy do grup
         %td.form_content
           =h @user.roles.map(&:name).map{|i| human_role(i)}.sort.join(", ")
+      %tr#even
+        %th.form_title Opiekun(-owie):
+        %td.form_content
+          = @user.parents.map{|p| link_to p.name.capitalize + " " + p.lastname.capitalize + " (" + p.login + ")", admin_user_path(p)}.sort.join(", ")
     %br
-    = link_to 'Wstecz', :back
+    = link_to 'Wstecz', admin_users_path
     |
     = link_to 'Edytuj informacje', edit_admin_user_path(@user)

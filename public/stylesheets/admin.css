@@ -49,6 +49,7 @@ input,select {  border: 1px #aaa solid; font-size: 1em; padding: 2px 3px; width:
 #box_content p { margin-bottom: 15px }
 
 #info { text-align:center; margin:15px auto; padding: 15px; border: 2px green solid; width: 400px; background-color:white; }
+#error { text-align:center; margin:15px auto; padding: 15px; border: 2px red solid; width: 400px; background-color:white; }
 
 #even { background-color:#ececec }
 #odd { }
