@@ -11,6 +11,18 @@ class Admin::UsersController < Admin::AdminController
     @user = User.find(params[:id])
   end
 
+  def update_group
+    @user = User.find(params[:id])
+    unless params[:user][:groups].blank?
+      @user.groups << Group.find(params[:user][:groups])
+      flash[:notice] = 'Wprowadzono zmiany'
+      redirect_to [:admin, @user]
+    else
+      flash.now[:error] = 'Wybierz poprawną grupę, by dodać'
+      render :action => 'edit'
+    end
+  end
+
   def update_classroom
     @user = User.find(params[:id])
     unless params[:user][:classroom].blank?
@@ -62,6 +74,12 @@ class Admin::UsersController < Admin::AdminController
   def delete_classroom
     @user = User.find(params[:id])
     @user.classroom.users.delete(@user)
+    redirect_to [:admin, @user]
+  end
+
+  def delete_group
+    @user = User.find(params[:id])
+    @user.groups.delete(Group.find(params[:group_id]))
     redirect_to [:admin, @user]
   end
 end

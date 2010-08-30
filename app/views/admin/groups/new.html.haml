@@ -1,0 +1,11 @@
+#box
+  #box_title Dodaj nową grupę
+  #box_content
+    - form_for [:admin, @group] do |f|
+      %table
+        %tr.even
+          %th.form_title Nazwa grupy:
+          %td.form_content= f.text_field :name_of_group
+      = f.submit "Zapisz", :class => 'submit'
+    %br
+    = link_to 'Wstecz', admin_groups_path

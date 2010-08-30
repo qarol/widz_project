@@ -18,7 +18,7 @@
           %th.form_title E-mail
           %td.form_content= f.text_field :email
         %tr.even
-          %th.form_title Grupy:
+          %th.form_title Role:
           %td.form_content
             - for role in Role.all
               = check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role)
@@ -55,7 +55,7 @@
                 = g.submit "Dodaj", :class => 'submit'
     - if @user.is_student?
       %br
-      %h1 Klasa i grupy
+      %h1 Klasa
       - form_for [:admin, @user], :url => update_classroom_admin_user_path(@user) do |g|
         %table
           %tr.even
@@ -79,5 +79,24 @@
           %th.form_title Klasy:
           %td.form_content
             = @user.classroom_educators.blank? ? "brak" : @user.classroom_educators.map{|ce| link_to ce.name_of_class, admin_classroom_path(ce) + " "}.join(", ")
+    %br
+    %h1 Grupy
+    - form_for [:admin, @user], :url => update_group_admin_user_path(@user) do |g|
+      %table
+        %tr.even
+          %th.form_title Grupa(-y):
+          %td.form_content
+            - unless @user.groups.blank?
+              - @user.groups.each do |gr|
+                = link_to gr.name_of_group, admin_group_path(gr)
+                = link_to "[usuń]", delete_group_admin_users_path(:id => @user, :group_id => gr), :confirm => "Jesteś tego pewien?", :method => 'delete_group'
+                %br
+            - else
+              brak
+        %tr.odd
+          %th.form_title Dodaj grupę:
+          %td.form_content
+            = g.select :groups, (Group.all - @user.groups).map{|u| [u.name_of_group + " (" + u.users.size.to_s + " osób)", u.id]}, :include_blank => '-- Wybierz grupę --'
+            = g.submit "Dodaj", :class => 'submit'
     %br
     = link_to 'Wstecz', admin_users_path

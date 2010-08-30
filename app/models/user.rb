@@ -15,8 +15,9 @@ class User < ActiveRecord::Base
   # relacje uczeń-klasa
   has_one :classroom_user
   has_one :classroom, :through => :classroom_user
-
   has_many :classroom_educators, :class_name => "Classroom", :foreign_key => :user_id
+
+  has_and_belongs_to_many :groups
 
   def has_role?(role_in_question)
     @_list ||= self.roles.collect(&:name)

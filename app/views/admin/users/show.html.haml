@@ -11,11 +11,11 @@
         %td.form_content
           =h @user.login
       %tr#even
-        %th.form_title Email
+        %th.form_title Email:
         %td.form_content
           =h @user.email
       %tr#odd
-        %th.form_title Należy do grup
+        %th.form_title Rola:
         %td.form_content
           =h @user.roles.blank? ? "brak" : @user.roles.map(&:name).map{|i| human_role(i)}.sort.join(", ")
       - if @user.is_student?
@@ -38,6 +38,10 @@
           %th.form_title Wychowawstwo klasy
           %td.form_content
             = @user.classroom_educators.blank? ? "brak" : @user.classroom_educators.map{|ce| link_to ce.name_of_class, admin_classroom_path(ce) + " "}.join(", ")
+      %tr#odd
+        %th.form_title Grupa(-y):
+        %td.form_content
+          = @user.groups.blank? ? "brak" : @user.groups.map{|ce| link_to ce.name_of_group, admin_group_path(ce) + " "}.join(", ")
     %br
     = link_to 'Wstecz', admin_users_path
     |

@@ -1,0 +1,23 @@
+#box
+  #box_title Grupy
+  #box_content
+    %table
+      %tr
+        %th Nazwa grupy
+        %th Liczba uczestników
+        %th Pokaż
+        %th Edytuj
+      - if @groups.blank?
+        %tr
+          %td{:colspan => 4} brak
+      - else
+        - for group in @groups
+          %tr{:id => cycle('even','odd')}
+            %td= h group.name_of_group
+            %td= h group.users.size
+            %td= link_to "Pokaż", admin_group_path(group)
+            %td= link_to "Edytuj", edit_admin_group_path(group)
+    %br
+    = link_to 'Wstecz', :back
+    |
+    = link_to 'Dodaj grupę', new_admin_group_path

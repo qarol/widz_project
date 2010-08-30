@@ -1,0 +1,31 @@
+#box
+  #box_title Zmień parametry grupy
+  #box_content
+    - form_for [:admin, @group] do |f|
+      %table
+        %tr.even
+          %th.form_title Nazwa grupy:
+          %td.form_content= f.text_field :name_of_group
+        %tr.odd
+          %th.form_title Liczba uczestników
+          %td.form_content= @group.users.size.to_s
+      = f.submit "Zapisz", :class => 'submit'
+    %br
+    %h1 Osoby należące do grupy
+    %table
+      %tr
+        %th Nr
+        %th Imię i nazwisko
+        %th Usuń z grupy
+      - if @users.empty?
+        %tr
+          %td{:colspan => 3} brak
+      - else
+        - @users.each_with_index do |user, index|
+          %tr{:id => cycle('even','odd')}
+            %td= index+1
+            %td= link_to h(user.name.capitalize + " " + user.lastname.capitalize), admin_user_path(user)
+            %td= link_to "usuń", delete_user_admin_groups_path(:id => @group, :user_id => user), :confirm => "Jesteś tego pewien?", :method => :delete_user
+    
+    %br
+    = link_to 'Wstecz', admin_groups_path
