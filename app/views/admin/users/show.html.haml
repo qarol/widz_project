@@ -1,5 +1,5 @@
 #box
-  #box_title Moje dane
+  #box_title Dane użytkownika
   #box_content
     %table
       %tr#even
@@ -28,6 +28,11 @@
           %th.form_title Potomek(-owie):
           %td.form_content
             = @user.children.map{|c| link_to c.name.capitalize + " " + c.lastname.capitalize + " (" + c.login + ")", admin_user_path(c)}.sort.join(", ")
+      - if @user.is_student?
+        %tr#even
+          %th.form_title Klasa:
+          %td.form_content
+            = @user.classroom.name_of_class unless @user.classroom.nil?
     %br
     = link_to 'Wstecz', admin_users_path
     |

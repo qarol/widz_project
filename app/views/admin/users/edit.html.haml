@@ -53,5 +53,21 @@
               %td.form_content
                 = g.select :children, (User.all - @user.children).select{|u| u.is_student?}.map{|u| [u.name.capitalize + " " + u.lastname.capitalize, u.id]}, :include_blank => '-- Wybierz potomka --'
                 = g.submit "Dodaj", :class => 'submit'
+      - if @user.is_student?
+        %br
+        %h1 Klasa i grupy
+        - form_for [:admin, @user], :url => update_classroom_admin_user_path(@user) do |g|
+          %table
+            %tr.even
+              %th.form_title Klasa:
+              %td.form_content
+                - unless @user.classroom.nil?
+                  = link_to @user.classroom.name_of_class, admin_classroom_path(@user.classroom)
+                  = link_to "[usuń]", delete_classroom_admin_users_path(:id => @user, :classroom => @user.classroom), :confirm => "Jesteś tego pewien?", :method => 'delete_classroom'
+            %tr.odd
+              %th.form_title Zmień klasę:
+              %td.form_content
+                = g.select :classroom, (Classroom.all - [@user.classroom]).map{|c| [c.name_of_class, c.id]}, :include_blank => '-- Wybierz klasę --'
+                = g.submit "Zmień", :class => 'submit'
     %br
     = link_to 'Wstecz', admin_users_path

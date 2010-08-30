@@ -1,6 +1,6 @@
 class CreateClassroomUsers < ActiveRecord::Migration
   def self.up
-    create_table :classroom_users, :id => false do |t|
+    create_table :classroom_users do |t|
       t.references :user
       t.references :classroom
     end

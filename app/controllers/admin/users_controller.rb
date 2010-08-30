@@ -11,6 +11,18 @@ class Admin::UsersController < Admin::AdminController
     @user = User.find(params[:id])
   end
 
+  def update_classroom
+    @user = User.find(params[:id])
+    unless params[:user][:classroom].blank?
+      @user.classroom = Classroom.find(params[:user][:classroom])
+      flash[:notice] = 'Wprowadzono zmiany'
+      redirect_to [:admin, @user]
+    else
+      flash.now[:error] = 'Wybierz poprawne pole, by dodać'
+      render :action => 'edit'
+    end
+  end
+
   def update_family_ties
     @user = User.find(params[:id])
     unless params[:user][:parents].blank? && params[:user][:children].blank?
@@ -44,6 +56,12 @@ class Admin::UsersController < Admin::AdminController
   def delete_child
     @user = User.find(params[:id])
     @user.children.delete(User.find(params[:child_id]))
+    redirect_to [:admin, @user]
+  end
+
+  def delete_classroom
+    @user = User.find(params[:id])
+    @user.classroom.users.delete(@user)
     redirect_to [:admin, @user]
   end
 end
