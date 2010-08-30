@@ -13,7 +13,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :users,
                     :collection => { :delete_parent => :delete, :delete_child => :delete, :delete_classroom => :delete },
                     :member => { :update_family_ties => :put, :update_classroom => :put }
-    admin.resources :classrooms
+    admin.resources :classrooms,
+                    :collection => { :delete_user => :delete }
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

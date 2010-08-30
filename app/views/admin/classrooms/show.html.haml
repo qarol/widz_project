@@ -13,6 +13,25 @@
         %td.form_content= h @classroom.year.try(:year)
       %tr.odd
         %th.form_title Wychowawca:
-        %td.form_content= h @classroom.user_id
+        %td.form_content= link_to h(@classroom.educator_name + " " + @classroom.educator_lastname), admin_user_path(@classroom.educator)
+      %tr.even
+        %th.form_title Liczba uczniów
+        %td.form_content= @classroom.students.size
+    %br
+    %h1 Uczniowe należący do klasy
+    %table
+      %tr
+        %th Nr
+        %th Imię i nazwisko
+        %th Usuń z klasy
+      - if @users.empty?
+        %tr
+          %td{:colspan => 3} brak
+      - else
+        - @users.each_with_index do |user, index|
+          %tr{:id => cycle('even','odd')}
+            %td= index+1
+            %td= link_to h(user.name.capitalize + " " + user.lastname.capitalize), admin_user_path(user)
+            %td= link_to "usuń", delete_user_admin_classrooms_path(:id => @classroom, :user_id => user), :confirm => "Jesteś tego pewien?", :method => :delete_user
     %br
     = link_to 'Wstecz', admin_classrooms_path

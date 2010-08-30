@@ -19,10 +19,12 @@ class Admin::ClassroomsController < Admin::AdminController
 
   def show
     @classroom = Classroom.find(params[:id])
+    @users = @classroom.students.sort_by{|u| u.lastname.capitalize}
   end
 
   def edit
     @classroom = Classroom.find(params[:id])
+    @users = @classroom.students.sort_by{|u| u.lastname.capitalize}
   end
 
   def update
@@ -33,6 +35,13 @@ class Admin::ClassroomsController < Admin::AdminController
     else
       render :action => 'edit'
     end
+  end
+
+  def delete_user
+    @classroom = Classroom.find(params[:id])
+    @classroom.users.delete(User.find(params[:user_id]))
+    flash[:notice] = 'Usunięto pomyślnie użytkownika'
+    redirect_to [:admin, @classroom]
   end
 
 end

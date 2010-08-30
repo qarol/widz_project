@@ -5,14 +5,18 @@
       %tr
         %th Nr sali
         %th Nazwa klasy
+        %th Rok utworzenia
         %th Wychowawca
+        %th Liczba uczniów
         %th Pokaż
         %th Edytuj
       - for classroom in @classrooms
         %tr{:id => cycle('even','odd')}
           %td= h classroom.hall
           %td= h classroom.name_of_class
-          %td= h classroom.user_id
+          %td= h classroom.year.year.to_s
+          %td= link_to h(classroom.educator_name + " " + classroom.educator_lastname), admin_user_path(classroom.educator)
+          %td= classroom.students.size
           %td= link_to "Pokaż", admin_classroom_path(classroom)
           %td= link_to "Edytuj", edit_admin_classroom_path(classroom)
     %br
