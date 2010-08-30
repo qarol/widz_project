@@ -17,22 +17,27 @@
       %tr#odd
         %th.form_title Należy do grup
         %td.form_content
-          =h @user.roles.map(&:name).map{|i| human_role(i)}.sort.join(", ")
+          =h @user.roles.blank? ? "brak" : @user.roles.map(&:name).map{|i| human_role(i)}.sort.join(", ")
       - if @user.is_student?
         %tr#even
           %th.form_title Opiekun(-owie):
           %td.form_content
-            = @user.parents.map{|p| link_to p.name.capitalize + " " + p.lastname.capitalize + " (" + p.login + ")", admin_user_path(p)}.sort.join(", ")
+            = @user.parents.blank? ? "brak" : @user.parents.map{|p| link_to p.name.capitalize + " " + p.lastname.capitalize + " (" + p.login + ")", admin_user_path(p)}.sort.join(", ")
       - if @user.is_parent?
         %tr#odd
           %th.form_title Potomek(-owie):
           %td.form_content
-            = @user.children.map{|c| link_to c.name.capitalize + " " + c.lastname.capitalize + " (" + c.login + ")", admin_user_path(c)}.sort.join(", ")
+            = @user.children.blank? ? "brak" : @user.children.map{|c| link_to c.name.capitalize + " " + c.lastname.capitalize + " (" + c.login + ")", admin_user_path(c)}.sort.join(", ")
       - if @user.is_student?
         %tr#even
           %th.form_title Klasa:
           %td.form_content
-            = @user.classroom.name_of_class unless @user.classroom.nil?
+            = @user.classroom.nil? ? "brak" : (link_to @user.classroom.name_of_class, admin_classroom_path(@user.classroom))
+      - if @user.is_teacher?
+        %tr#even
+          %th.form_title Wychowawstwo klasy
+          %td.form_content
+            = @user.classroom_educators.blank? ? "brak" : @user.classroom_educators.map{|ce| link_to ce.name_of_class, admin_classroom_path(ce) + " "}.join(", ")
     %br
     = link_to 'Wstecz', admin_users_path
     |

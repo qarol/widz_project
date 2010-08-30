@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   has_one :classroom_user
   has_one :classroom, :through => :classroom_user
 
+  has_many :classroom_educators, :class_name => "Classroom", :foreign_key => :user_id
+
   def has_role?(role_in_question)
     @_list ||= self.roles.collect(&:name)
     return true if @_list.include?("admin")

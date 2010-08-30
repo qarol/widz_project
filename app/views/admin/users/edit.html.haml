@@ -35,7 +35,7 @@
             %tr.even
               %th.form_title Opiekun(-owie):
               %td.form_content
-                = @user.parents.map{|p| (link_to p.name.capitalize + " " + p.lastname.capitalize + " (" + p.login + ")", admin_user_path(p)) + " " + (link_to "[usuń]", delete_parent_admin_users_path(:id => @user, :parent_id => p.id), :confirm => "Jesteś tego pewien?", :method => 'delete_paren')}.sort.join("<br>")
+                = @user.parents.blank? ? "brak" : @user.parents.map{|p| (link_to p.name.capitalize + " " + p.lastname.capitalize + " (" + p.login + ")", admin_user_path(p)) + " " + (link_to "[usuń]", delete_parent_admin_users_path(:id => @user, :parent_id => p.id), :confirm => "Jesteś tego pewien?", :method => 'delete_paren')}.sort.join("<br>")
             %tr.odd
               %th.form_title Dodaj opiekuna:
               %td.form_content
@@ -47,27 +47,37 @@
             %tr.even
               %th.form_title Potomek(-owie):
               %td.form_content
-                = @user.children.map{|c| (link_to c.name.capitalize + " " + c.lastname.capitalize + " (" + c.login + ")", admin_user_path(c)) + " " + (link_to "[usuń]", delete_child_admin_users_path(:id => @user, :child_id => c.id), :confirm => "Jesteś tego pewien?", :method => 'delete_child')}.sort.join("<br>")
+                = @user.children.blank? ? "brak" : @user.children.map{|c| (link_to c.name.capitalize + " " + c.lastname.capitalize + " (" + c.login + ")", admin_user_path(c)) + " " + (link_to "[usuń]", delete_child_admin_users_path(:id => @user, :child_id => c.id), :confirm => "Jesteś tego pewien?", :method => 'delete_child')}.sort.join("<br>")
             %tr.odd
               %th.form_title Dodaj potomka:
               %td.form_content
                 = g.select :children, (User.all - @user.children).select{|u| u.is_student?}.map{|u| [u.name.capitalize + " " + u.lastname.capitalize, u.id]}, :include_blank => '-- Wybierz potomka --'
                 = g.submit "Dodaj", :class => 'submit'
-      - if @user.is_student?
-        %br
-        %h1 Klasa i grupy
-        - form_for [:admin, @user], :url => update_classroom_admin_user_path(@user) do |g|
-          %table
-            %tr.even
-              %th.form_title Klasa:
-              %td.form_content
-                - unless @user.classroom.nil?
-                  = link_to @user.classroom.name_of_class, admin_classroom_path(@user.classroom)
-                  = link_to "[usuń]", delete_classroom_admin_users_path(:id => @user, :classroom => @user.classroom), :confirm => "Jesteś tego pewien?", :method => 'delete_classroom'
-            %tr.odd
-              %th.form_title Zmień klasę:
-              %td.form_content
-                = g.select :classroom, (Classroom.all - [@user.classroom]).map{|c| [c.name_of_class, c.id]}, :include_blank => '-- Wybierz klasę --'
-                = g.submit "Zmień", :class => 'submit'
+    - if @user.is_student?
+      %br
+      %h1 Klasa i grupy
+      - form_for [:admin, @user], :url => update_classroom_admin_user_path(@user) do |g|
+        %table
+          %tr.even
+            %th.form_title Klasa:
+            %td.form_content
+              - unless @user.classroom.nil?
+                = link_to @user.classroom.name_of_class, admin_classroom_path(@user.classroom)
+                = link_to "[usuń]", delete_classroom_admin_users_path(:id => @user, :classroom => @user.classroom), :confirm => "Jesteś tego pewien?", :method => 'delete_classroom'
+              - else
+                brak
+          %tr.odd
+            %th.form_title Zmień klasę:
+            %td.form_content
+              = g.select :classroom, (Classroom.all - [@user.classroom]).map{|c| [c.name_of_class, c.id]}, :include_blank => '-- Wybierz klasę --'
+              = g.submit "Zmień", :class => 'submit'
+    - if @user.is_teacher?
+      %br
+      %h1 Wychowawstwo klasy
+      %table
+        %tr.even
+          %th.form_title Klasy:
+          %td.form_content
+            = @user.classroom_educators.blank? ? "brak" : @user.classroom_educators.map{|ce| link_to ce.name_of_class, admin_classroom_path(ce) + " "}.join(", ")
     %br
     = link_to 'Wstecz', admin_users_path
