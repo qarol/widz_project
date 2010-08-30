@@ -17,10 +17,17 @@
         %tr.odd
           %th.form_title E-mail
           %td.form_content= f.text_field :email
+        %tr.even
+          %th.form_title Grupy:
+          %td.form_content
+            - for role in Role.all
+              = check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role)
+              = human_role role.name
+              %br
       = f.submit "Zapisz", :class => 'submit'
 
     - if @user.is_student?
-      - form_for [:admin, @user] do |g|
+      - form_for [:admin, @user], :url => update_family_ties_admin_user_path(@user) do |g|
         %br
         %h1 Powiązania rodzinne
         %table

@@ -11,13 +11,22 @@ class Admin::UsersController < Admin::AdminController
     @user = User.find(params[:id])
   end
 
-  def update
+  def update_family_ties
     @user = User.find(params[:id])
-    if params[:user][:parents].blank? && !params[:user][:parents].nil?
+    unless params[:user][:parents].blank?
+      @user.parents << User.find(params[:user][:parents]) unless params[:user][:parents].blank?
+      flash[:notice] = 'Wprowadzono zmiany'
+      redirect_to [:admin, @user]
+    else
       flash.now[:error] = 'Wybierz opiekuna, by dodać'
       render :action => 'edit'
-    elsif @user.update_attributes(params[:user])
-      @user.parents << User.find(params[:user][:parents]) unless params[:user][:parents].blank?
+    end
+  end
+
+  def update
+    @user = User.find(params[:id])
+    @user.roles = Role.find_all_by_id(params[:user][:role_ids])
+    if @user.update_attributes(params[:user])
       flash[:notice] = 'Wprowadzono zmiany'
       redirect_to [:admin, @user]
     else
