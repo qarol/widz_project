@@ -1,0 +1,34 @@
+#box
+  #box_title Ustawienia
+  #box_content
+    %h1 Porządek dnia
+    %table
+      %tr.odd
+        %th Nr
+        %th Godzina rozpoczęcia
+        %th Godzina zakończenia
+        %th Usuń
+      - if @orders.blank?
+        %tr
+          %td{:colspan => 4} brak
+      - else
+        - @orders.each_with_index do |order, index|
+          %tr.even
+            %td.form_content= index + 1
+            %td.form_content= order.start.strftime("%H:%M")
+            %td.form_content= order.end.strftime("%H:%M")
+            %td.form_content= link_to "usuń", admin_preference_path(:order_id => order), :confirm => "Czy jesteś tego pewien?", :method => :delete
+    %br
+    %h1 Dodaj nową lekcję
+    - form_for [:admin, @order ], :url => admin_preference_path do |f|
+      = f.error_messages
+      %table
+        %tr.even
+          %th.form_title Godzina rozpoczęcia
+          %td.form_content
+            = f.time_select :start
+        %tr.even
+          %th.form_title Godzina zakończenia
+          %td.form_content
+            = f.time_select :end
+      = f.submit 'Dodaj', :class => 'submit'

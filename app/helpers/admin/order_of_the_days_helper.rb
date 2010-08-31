@@ -1,0 +1,2 @@
+module Admin::OrderOfTheDaysHelper
+end
