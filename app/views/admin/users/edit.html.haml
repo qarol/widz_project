@@ -62,14 +62,14 @@
             %th.form_title Klasa:
             %td.form_content
               - unless @user.classroom.nil?
-                = link_to @user.classroom.name_of_class, admin_classroom_path(@user.classroom)
+                = link_to (@user.classroom.current_year.to_s+@user.classroom.name_of_class), admin_classroom_path(@user.classroom)
                 = link_to "[usuń]", delete_classroom_admin_users_path(:id => @user, :classroom => @user.classroom), :confirm => "Jesteś tego pewien?", :method => 'delete_classroom'
               - else
                 brak
           %tr.odd
             %th.form_title Zmień klasę:
             %td.form_content
-              = g.select :classroom, (Classroom.all - [@user.classroom]).map{|c| [c.name_of_class, c.id]}, :include_blank => '-- Wybierz klasę --'
+              = g.select :classroom, (Classroom.all - [@user.classroom]).map{|c| [c.current_year.to_s+c.name_of_class, c.id]}.sort, :include_blank => '-- Wybierz klasę --'
               = g.submit "Zmień", :class => 'submit'
     - if @user.is_teacher?
       %br
@@ -78,7 +78,7 @@
         %tr.even
           %th.form_title Klasy:
           %td.form_content
-            = @user.classroom_educators.blank? ? "brak" : @user.classroom_educators.map{|ce| link_to ce.name_of_class, admin_classroom_path(ce) + " "}.join(", ")
+            = @user.classroom_educators.blank? ? "brak" : @user.classroom_educators.map{|ce| link_to (ce.current_year.to_s+ce.name_of_class), admin_classroom_path(ce) + " "}.join(", ")
     %br
     %h1 Grupy
     - form_for [:admin, @user], :url => update_group_admin_user_path(@user) do |g|

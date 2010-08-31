@@ -1,6 +1,9 @@
 class Admin::ClassroomsController < Admin::AdminController
   def index
-    @classrooms = Classroom.all
+    @classrooms_0 = Classroom.choose_year(0).sort_by{|c| c.name_of_class}
+    @classrooms_1 = Classroom.choose_year(1).sort_by{|c| c.name_of_class}
+    @classrooms_2 = Classroom.choose_year(2).sort_by{|c| c.name_of_class}
+    @classrooms_3 = Classroom.choose_year(3).sort_by{|c| c.name_of_class}
   end
 
   def new

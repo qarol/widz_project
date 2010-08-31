@@ -11,10 +11,10 @@
           %td.form_content= f.text_field :name_of_class
         %tr.even
           %th.form_title Rok utworzenia
-          %td.form_content= f.date_select :year, :start_year => 1990, :end_year => Date.today.year, :discard_day => true, :discard_month => true
+          %td.form_content= f.select :year, (1990..(Date.today.year.to_i)).to_a
         %tr.odd
           %th.form_title Wychowawca:
-          %td.form_content= f.select :user_id, User.all.select{|u| u.is_teacher?}.map{|u| [u.login, u.id]}
+          %td.form_content= f.select :user_id, User.all.select{|u| u.is_teacher?}.map{|u| [u.login, u.id]}, :include_blank => '--Wybierz wychowawcę --'
       = f.submit "Zapisz", :class => 'submit'
     %br
     = link_to 'Wstecz', admin_classrooms_path

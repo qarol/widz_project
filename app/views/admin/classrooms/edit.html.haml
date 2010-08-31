@@ -5,15 +5,18 @@
       = f.error_messages
       %h1 Dane klasy
       %table
-        %tr.even
+        %tr.odd
           %th.form_title Sala:
           %td.form_content= f.text_field :hall
+        %tr.even
+          %th.form_title Aktualny rok
+          %td.form_content= @classroom.current_year.to_s
         %tr.odd
           %th.form_title Nazwa klasy:
           %td.form_content= f.text_field :name_of_class
         %tr.even
           %th.form_title Rok utworzenia
-          %td.form_content= f.date_select :year, :start_year => 1990, :end_year => Date.today.year, :discard_day => true, :discard_month => true
+          %td.form_content= f.select :year, (1990..(Date.today.year.to_i)).to_a
         %tr.odd
           %th.form_title Wychowawca:
           %td.form_content= f.select :user_id, User.all.select{|u| u.is_teacher?}.map{|u| [u.name.capitalize + " " + u.lastname.capitalize + " (" + u.login + ")", u.id]}, :include_blank => '-- Wybierz wychowawcę --'
