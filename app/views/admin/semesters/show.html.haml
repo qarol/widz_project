@@ -1,0 +1,18 @@
+#box
+  #box_title Semestr
+  #box_content
+    %table
+      %tr.even
+        %th.form_title Rok szkolny
+        %td.form_content= school_year @semester.year
+      %tr.even
+        %th.form_title Semestr
+        %td.form_content= @semester.h_semester
+      %tr.even
+        %th.form_title Początek semestru
+        %td.form_content= @semester.start.to_s
+      %tr.even
+        %th.form_title Koniec semestru
+        %td.form_content= @semester.end.to_s
+    %br
+    = link_to 'Wstecz', admin_semesters_path

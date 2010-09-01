@@ -28,6 +28,7 @@
             - if current_user.is_admin?
               = image_tag 'admin/top.jpg', :class => "top flt"
               %ul.menu
+                %li= link_to "Semestry", admin_semesters_path
                 %li= link_to "Użytkownicy", admin_users_path
                 %li= link_to "Klasy", admin_classrooms_path
                 %li= link_to "Grupy", admin_groups_path

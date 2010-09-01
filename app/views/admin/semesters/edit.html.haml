@@ -1,0 +1,21 @@
+#box
+  #box_title Zmień parametry semestru
+  #box_content
+    - form_for [:admin, @semester] do |f|
+      = f.error_messages
+      %table
+        %tr.even
+          %th.form_title Rok szkolny
+          %td.form_content= f.select :year, (1990..(Date.today.year.to_i + 1)).to_a.map{|y| [y.to_s + "/" + (y+1).to_s, y]}
+        %tr.even
+          %th.form_title Semestr
+          %td.form_content= f.select :semester, [["zimowy",1],["letni",2]]
+        %tr.even
+          %th.form_title Początek semestru
+          %td.form_content= f.date_select :start, :start_year => 1990, :end_year => Date.today.year+2
+        %tr.even
+          %th.form_title Koniec semestru
+          %td.form_content= f.date_select :end, :start_year => 1990, :end_year => Date.today.year+2
+      = f.submit "Zapisz", :class => 'submit'
+    %br
+    = link_to 'Wstecz', admin_semesters_path

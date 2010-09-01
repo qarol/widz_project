@@ -18,6 +18,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :groups,
                     :collection => { :delete_user => :delete }
     admin.resource :preference
+    admin.resources :semesters
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

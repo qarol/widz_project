@@ -1,0 +1,27 @@
+#box
+  #box_title Semestry
+  #box_content
+    %table
+      %tr
+        %th Rok szkolny
+        %th Semestr
+        %th Początek semestru
+        %th Koniec semestru
+        %th Pokaż
+        %th Edytuj
+      - if @semesters.blank?
+        %tr
+          %td{:colspan => 6} brak
+      - else
+        - for semester in @semesters
+          %tr{:id => cycle('even','odd')}
+            %td= h school_year semester.year
+            %td= h semester.h_semester
+            %td= h semester.start.to_s
+            %td= h semester.end.to_s
+            %td= link_to "Pokaż", admin_semester_path(semester)
+            %td= link_to "Edytuj", edit_admin_semester_path(semester)
+    %br
+    = link_to 'Wstecz', :back
+    |
+    = link_to 'Dodaj semestr', new_admin_semester_path
