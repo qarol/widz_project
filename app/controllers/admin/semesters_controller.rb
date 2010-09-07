@@ -35,4 +35,16 @@ class Admin::SemestersController < ApplicationController
     end
   end
 
+  def edit_change_semester
+    @semesters = Semester.find(:all, :order => 'year DESC, semester DESC')
+  end
+
+  def update_change_semester
+    if Semester.update_active(params[:active_id])
+      flash[:notice] = "Semestr został poprawnie wybrany"
+    else
+      flash[:error] = "Semestr nie został poprawnie wybrany"
+    end
+    redirect_to edit_change_semester_admin_semesters_path
+  end
 end

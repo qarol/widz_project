@@ -20,6 +20,18 @@
       #columns.clearfix
         - if logged_in?
           .menubg
+            - if current_user.is_admin?
+              = image_tag 'admin/top.jpg', :class => "top flt"
+              %div{:style => "text-align:center; width:100%; color:white"}
+                Wybrany semestr do edycji:
+                %br
+                - if Semester.choosen_semester.blank?
+                  brak wybranego semestru
+                - else
+                  %b= (school_year Semester.choosen_semester.year) + " (" + Semester.choosen_semester.h_semester + ")"
+                %br
+                = link_to "zmień", edit_change_semester_admin_semesters_path, :style => "color: white"
+              = image_tag 'admin/bot.jpg', :class => "bot flt"
             = image_tag 'admin/top.jpg', :class => "top flt"
             %ul.menu
               %li= link_to "Strona główna", root_path

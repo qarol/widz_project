@@ -1,0 +1,26 @@
+#box
+  #box_title Wybierz semestr do edycji
+  #box_content
+    %table
+      %tr
+        %th Wybierz
+        %th Rok szkolny
+        %th Semestr
+        %th Początek semestru
+        %th Koniec semestru
+      - if @semesters.blank?
+        %tr
+          %td{:colspan => 6} brak
+      - else
+        - form_for [:admin, @semesters], :url => { :action => 'update_change_semester'} do |f|
+          = f.error_messages
+          - for semester in @semesters
+            %tr{:id => cycle('even','odd')}
+              %td= radio_button_tag "active_id", semester.id, semester.active
+              %td= h school_year semester.year
+              %td= h semester.h_semester
+              %td= h semester.start.to_s
+              %td= h semester.end.to_s
+          = f.submit "Zapisz", :class => 'submit'
+    %br
+    = link_to 'Wstecz', admin_semesters_path
