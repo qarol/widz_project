@@ -32,3 +32,30 @@
           %td.form_content
             = f.time_select :end
       = f.submit 'Dodaj', :class => 'submit'
+    %br
+    %hr
+    %br
+    %h1 Nazwy grup przedmiotów
+    %table
+      %tr.odd
+        %th Nr
+        %th Nazwa przedmiotu
+        %th Usuń
+      - if @subject_names.blank?
+        %tr
+          %td{:colspan => 3} brak
+      - else
+        - @subject_names.each_with_index do |subject_name, index|
+          %tr.even
+            %td.form_content= index + 1
+            %td.form_content= subject_name.name
+            %td.form_content= link_to "usuń", destroy_subject_name_admin_preference_path(:subject_name_id => subject_name), :confirm => "Czy jesteś tego pewien?", :method => :delete
+    %br
+    %h1 Dodaj nową grupę przedmiotów
+    - form_for [:admin, @subject_name], :url => create_subject_name_admin_preference_path do |f|
+      = f.error_messages
+      %table
+        %tr.even
+          %th.form_title Nazwa
+          %td.form_content= f.text_field :name
+      = f.submit 'Dodaj', :class => 'submit'

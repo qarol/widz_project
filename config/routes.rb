@@ -17,7 +17,8 @@ ActionController::Routing::Routes.draw do |map|
                     :collection => { :delete_user => :delete }
     admin.resources :groups,
                     :collection => { :delete_user => :delete }
-    admin.resource :preference
+    admin.resource :preference,
+                    :member => { :create_subject_name => :post, :destroy_subject_name => :delete }
     admin.resources :subjects
     admin.resources :semesters, :collection => { :edit_change_semester => :get, :update_change_semester => :put } do |semester|
       semester.resources :classrooms,
