@@ -1,0 +1,25 @@
+#box
+  #box_title Przedmioty
+  #box_content
+    - unless @subjects.blank?
+      %h1 Przedmioty
+      %table
+        %tr
+          %th Nazwa
+          %th Rok/semestr
+          %th Klasa/grupa
+          %th Nauczyciel
+          %th Pokaż
+          %th Edytuj
+        - for subject in @subjects
+          %tr{:id => cycle('even','odd')}
+            %td= h subject.subject_name.name
+            %td= h subject.semester.year.to_s
+            %td= h subject.team
+            %td= h subject.user.name
+            %td= link_to "Pokaż", admin_classroom_path(classroom)
+            %td= link_to "Edytuj", edit_admin_classroom_path(classroom)
+    %br
+    = link_to 'Wstecz', :back
+    |
+    = link_to 'Dodaj przedmiot', new_admin_subject_path

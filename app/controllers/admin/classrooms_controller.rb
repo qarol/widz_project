@@ -1,20 +1,21 @@
 class Admin::ClassroomsController < Admin::AdminController
   def index
-    @classrooms_0 = Classroom.choose_year(0).sort_by{|c| c.name_of_class}
-    @classrooms_1 = Classroom.choose_year(1).sort_by{|c| c.name_of_class}
-    @classrooms_2 = Classroom.choose_year(2).sort_by{|c| c.name_of_class}
-    @classrooms_3 = Classroom.choose_year(3).sort_by{|c| c.name_of_class}
+    @semester = Semester.choosen_or_current(params[:semester_id])
+    @classrooms = @semester.classrooms_of_year
+    store_location
   end
 
   def new
-    @classroom = Classroom.new
+    @semester = Semester.choosen_or_current(params[:semester_id])
+    @classroom = Classroom.new(:year => @semester.try(:year))
   end
 
   def create
+    @semester = Semester.choosen_or_current(params[:semester_id])
     @classroom = Classroom.new(params[:classroom])
     if @classroom.save
       flash[:notice] = 'Klasa została utworzona'
-      redirect_to [:admin, @classroom]
+      redirect_back_or_default [:admin, @semester, @classroom]
     else
       render :action => 'new'
     end

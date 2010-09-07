@@ -20,18 +20,16 @@
       #columns.clearfix
         - if logged_in?
           .menubg
-            - if current_user.is_admin?
-              = image_tag 'admin/top.jpg', :class => "top flt"
-              %div{:style => "text-align:center; width:100%; color:white"}
-                Wybrany semestr do edycji:
-                %br
-                - if Semester.choosen_semester.blank?
-                  brak wybranego semestru
+            = image_tag 'admin/top.jpg', :class => "top flt"
+            %div{:style => "text-align:center; width:100%; color:white"}
+              Obecny semestr:
+              %br
+              %b
+                - if Semester.current.blank?
+                  nieokreślony
                 - else
-                  %b= (school_year Semester.choosen_semester.year) + " (" + Semester.choosen_semester.h_semester + ")"
-                %br
-                = link_to "zmień", edit_change_semester_admin_semesters_path, :style => "color: white"
-              = image_tag 'admin/bot.jpg', :class => "bot flt"
+                  = (school_year Semester.current.year) + " (" + Semester.current.h_semester + ")"
+            = image_tag 'admin/bot.jpg', :class => "bot flt"
             = image_tag 'admin/top.jpg', :class => "top flt"
             %ul.menu
               %li= link_to "Strona główna", root_path
@@ -40,11 +38,24 @@
             - if current_user.is_admin?
               = image_tag 'admin/top.jpg', :class => "top flt"
               %ul.menu
+                %div{:style => "text-align:center; width:100%; color:white"}
+                  PANEL ADMINISTRATORA
                 %li= link_to "Semestry", admin_semesters_path
                 %li= link_to "Użytkownicy", admin_users_path
-                %li= link_to "Klasy", admin_classrooms_path
-                %li= link_to "Grupy", admin_groups_path
                 %li= link_to "Ustawienia", edit_admin_preference_path
+              %div{:style => "text-align:center; width:100%; color:white"}
+                Wybrany semestr do edycji:
+                %br
+                - if Semester.choosen.blank?
+                  brak wybranego semestru
+                - else
+                  %b= (school_year Semester.choosen.year) + " (" + Semester.choosen.h_semester + ")"
+                %br
+                = link_to "zmień", edit_change_semester_admin_semesters_path, :style => "color: white"
+              %ul.menu
+                %li= link_to "Klasy", admin_semester_classrooms_path(Semester.choosen)
+                %li= link_to "Grupy", admin_semester_groups_path(Semester.choosen)
+                %li= link_to "Przedmioty", admin_semester_subjects_path(Semester.choosen)
               = image_tag 'admin/bot.jpg', :class => "bot flt"
         #side
           #content
@@ -56,3 +67,4 @@
     #footer
       %p
         %a{:href => "#", :class => "btn_up", :title => "do góry"}
+    = params.inspect

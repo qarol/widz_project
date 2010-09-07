@@ -1,0 +1,15 @@
+#box
+  #box_title Dodaj nowy przedmiot
+  #box_content
+    - form_for [:admin, @subject] do |f|
+      = f.error_messages
+      %h1 Dane przedmiotu
+      %table
+        %tr.odd
+          %th.form_title Przedmiot
+          %td.form_content= f.select :subject_name, SubjectName.all.map{|s| [s.name, s.id]}, :include_blank => '-- Wybierz przedmiot --'
+        %tr.even
+          %th.form_title Semestr
+          %td.form_content= f.select :semester, Semester.find(:all, :order => 'year DESC, semester DESC').map{|s| [s.year.to_s+"/"+(s.year+1).to_s+" "+s.h_semester, s.id]}, :include_blank => '-- Wybierz semestr --'
+    %br
+    = link_to 'Wstecz', admin_subjects_path

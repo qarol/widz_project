@@ -1,8 +1,8 @@
 #box
   #box_title Klasy
   #box_content
-    - unless @classrooms_0.blank?
-      %h1 Ropoczną naukę b.r.
+    - 0.upto(3) do |y|
+      %h1= (y==0) ? "Rozpoczną naukę w nowym roku szkolnym" : y.to_s + " klasa"
       %table
         %tr
           %th Nr sali
@@ -12,76 +12,18 @@
           %th Liczba uczniów
           %th Pokaż
           %th Edytuj
-        - for classroom in @classrooms_0
-          %tr{:id => cycle('even','odd')}
-            %td= h classroom.hall
-            %td= h classroom.name_of_class
-            %td= h classroom.year.to_s
-            %td= (classroom.educator_name.nil?) ? "brak" : (link_to h(classroom.educator_name + " " + classroom.educator_lastname), admin_user_path(classroom.educator))
-            %td= classroom.students.size
-            %td= link_to "Pokaż", admin_classroom_path(classroom)
-            %td= link_to "Edytuj", edit_admin_classroom_path(classroom)
+        - if @classrooms[y].blank?
+          %tr
+            %td{:colspan => 7} brak
+        - else
+          - for classroom in @classrooms[y]
+            %tr{:id => cycle('even','odd')}
+              %td= h classroom.hall
+              %td= h classroom.name_of_class
+              %td= h classroom.year.to_s
+              %td= (classroom.educator_name.nil?) ? "brak" : (link_to h(classroom.educator_name + " " + classroom.educator_lastname), admin_user_path(classroom.educator))
+              %td= classroom.students.size
+              %td= link_to "Pokaż", admin_classroom_path(classroom)
+              %td= link_to "Edytuj", edit_admin_classroom_path(classroom)
       %br
-    %h1 1 klasa
-    %table
-      %tr
-        %th Nr sali
-        %th Nazwa klasy
-        %th Rok utworzenia
-        %th Wychowawca
-        %th Liczba uczniów
-        %th Pokaż
-        %th Edytuj
-      - for classroom in @classrooms_1
-        %tr{:id => cycle('even','odd')}
-          %td= h classroom.hall
-          %td= h classroom.name_of_class
-          %td= h classroom.year.to_s
-          %td= (classroom.educator_name.nil?) ? "brak" : (link_to h(classroom.educator_name + " " + classroom.educator_lastname), admin_user_path(classroom.educator))
-          %td= classroom.students.size
-          %td= link_to "Pokaż", admin_classroom_path(classroom)
-          %td= link_to "Edytuj", edit_admin_classroom_path(classroom)
-    %br
-    %h1 2 klasa
-    %table
-      %tr
-        %th Nr sali
-        %th Nazwa klasy
-        %th Rok utworzenia
-        %th Wychowawca
-        %th Liczba uczniów
-        %th Pokaż
-        %th Edytuj
-      - for classroom in @classrooms_2
-        %tr{:id => cycle('even','odd')}
-          %td= h classroom.hall
-          %td= h classroom.name_of_class
-          %td= h classroom.year.to_s
-          %td= (classroom.educator_name.nil?) ? "brak" : (link_to h(classroom.educator_name + " " + classroom.educator_lastname), admin_user_path(classroom.educator))
-          %td= classroom.students.size
-          %td= link_to "Pokaż", admin_classroom_path(classroom)
-          %td= link_to "Edytuj", edit_admin_classroom_path(classroom)
-    %br
-    %h1 3 klasa
-    %table
-      %tr
-        %th Nr sali
-        %th Nazwa klasy
-        %th Rok utworzenia
-        %th Wychowawca
-        %th Liczba uczniów
-        %th Pokaż
-        %th Edytuj
-      - for classroom in @classrooms_3
-        %tr{:id => cycle('even','odd')}
-          %td= h classroom.hall
-          %td= h classroom.name_of_class
-          %td= h classroom.year.to_s
-          %td= (classroom.educator_name.nil?) ? "brak" : (link_to h(classroom.educator_name + " " + classroom.educator_lastname), admin_user_path(classroom.educator))
-          %td= classroom.students.size
-          %td= link_to "Pokaż", admin_classroom_path(classroom)
-          %td= link_to "Edytuj", edit_admin_classroom_path(classroom)
-    %br
-    = link_to 'Wstecz', :back
-    |
-    = link_to 'Dodaj klasę', new_admin_classroom_path
+    = link_to 'Dodaj klasę', new_admin_semester_classroom_path(@semester)

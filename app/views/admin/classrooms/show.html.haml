@@ -37,6 +37,6 @@
             %td= link_to h(user.name.capitalize + " " + user.lastname.capitalize), admin_user_path(user)
             %td= link_to "usuń", delete_user_admin_classrooms_path(:id => @classroom, :user_id => user), :confirm => "Jesteś tego pewien?", :method => :delete_user
     %br
-    = link_to 'Wstecz', admin_classrooms_path
+    = link_to 'Wstecz', session[:return_to]
     |
     = link_to 'Edytuj informacje', edit_admin_classroom_path(@user)

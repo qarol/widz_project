@@ -17,4 +17,4 @@
           %td.form_content= f.select :user_id, User.all.select{|u| u.is_teacher?}.map{|u| [u.login, u.id]}, :include_blank => '--Wybierz wychowawcę --'
       = f.submit "Zapisz", :class => 'submit'
     %br
-    = link_to 'Wstecz', admin_classrooms_path
+    = link_to 'Wstecz', :back

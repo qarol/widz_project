@@ -5,8 +5,26 @@ class Semester < ActiveRecord::Base
   validate :years_and_selected_school_year_are_correct
   validate :max_1_choosen_semester
 
-  def self.choosen_semester
+  has_many :classrooms, :foreign_key => 'year', :primary_key => 'year'
+
+  def self.choosen
     Semester.find(:first, :conditions => { :active => true })
+  end
+
+  def self.current
+    Semester.find(:first, :conditions => [ 'start <= ? AND end >= ?', Date.today.to_s, Date.today.to_s ])
+  end
+
+  def self.choosen_or_current semester_id
+    Semester.find_by_id(semester_id) || self.current
+  end
+
+  def classrooms_of_year year=nil
+    if year.nil?
+      (0..3).to_a.map{|n| Classroom.find(:all, :conditions => [ 'year = ?', self.year + 1 - n ], :order => 'name_of_class ASC')}
+    else
+      Classroom.find(:all, :conditions => [ 'year = ?', self.year + 1 - year ], :order => 'name_of_class ASC')
+    end
   end
 
   def h_semester
