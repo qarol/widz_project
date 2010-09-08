@@ -15,7 +15,7 @@
           %td.form_content= f.select :year, (1990..((Date.today.year+2).to_i)).to_a
         %tr.odd
           %th.form_title Wychowawca:
-          %td.form_content= f.select :user_id, User.all.select{|u| u.is_teacher?}.map{|u| [u.login, u.id]}, :include_blank => '--Wybierz wychowawcę --'
+          %td.form_content= f.select :user_id, User.all.select{|u| u.is_teacher?}.map{|u| [u.name.capitalize + " " + u.lastname.capitalize + " (" + u.login + ")", u.id]}, :include_blank => '-- Wybierz wychowawcę --'
       = f.submit "Zapisz", :class => 'submit'
     %br
-    = link_to 'Wstecz', :back
+    = link_to 'Anuluj', :back

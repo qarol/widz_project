@@ -15,7 +15,7 @@ class Admin::ClassroomsController < Admin::AdminController
     @classroom = Classroom.new(params[:classroom])
     if @classroom.save
       flash[:notice] = 'Klasa została utworzona'
-      redirect_back_or_default [:admin, @semester, @classroom]
+      redirect_to [:admin, @semester, @classroom]
     else
       render :action => 'new'
     end
@@ -48,7 +48,16 @@ class Admin::ClassroomsController < Admin::AdminController
     end
   end
 
+  def destroy
+    @semester = Semester.choosen_or_current(params[:semester_id])
+    @classroom = Classroom.find(params[:id])
+    @classroom.destroy
+    flash[:notice] = 'Klasa została pomyślnie usunięta'
+    redirect_to [:admin, @semester, :classrooms]
+  end
+
   def delete_user
+    @semester = Semester.choosen_or_current(params[:semester_id])
     @classroom = Classroom.find(params[:id])
     @classroom.users.delete(User.find(params[:user_id]))
     flash[:notice] = 'Usunięto pomyślnie użytkownika'

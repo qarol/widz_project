@@ -1,6 +1,6 @@
 class Classroom < ActiveRecord::Base
   belongs_to :educator, :class_name => "User", :foreign_key => :user_id
-  has_many :classroom_users
+  has_many :classroom_users, :dependent => :delete_all
   has_many :users, :through => :classroom_users
   has_many :subjects, :as => :team
 

@@ -32,3 +32,5 @@
         %td.form_content= @classroom.students.size
     %br
     = link_to 'Zmień wartości parametrów', edit_admin_semester_classroom_path(@user)
+    |
+    = link_to "Usuń klasę", admin_classroom_path(@classroom), :confirm => "Jesteś tego pewien?", :method => :delete
