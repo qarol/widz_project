@@ -23,4 +23,16 @@
               - else
                 = link_to (h @subject.team.name_of_class + " (klasa)"), admin_semester_classroom_path(@semester, @subject.team)
     %br
+    %h1 Terminarz
+    %table
+      %tr.odd
+        %th.form_title Dzień tygodnia, godzina
+        %td.form_content
+          = "brak " + (link_to "[dodaj termin]", edit_admin_semester_subject_path) if @lectures.blank?
+          - for lecture in @lectures do
+            = day_of_week(lecture.day_of_week) + ",  godz. " + lecture.order_of_the_day.start.strftime("%H:%M") + " - " + lecture.order_of_the_day.end.strftime("%H:%M")
+            %br
+    %br
     = link_to 'Wstecz', session[:return_to]
+    |
+    = link_to 'Zmień parametry przedmiotu', edit_admin_semester_subject_path

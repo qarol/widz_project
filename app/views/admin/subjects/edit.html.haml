@@ -22,4 +22,22 @@
             = select_tag :team_type_id, grouped_options_for_select(@team, @subject.team_type_id)
       = f.submit "Zapisz", :class => "submit"
     %br
+    %h1 Terminarz
+    - form_for [:admin, @lecture], :url => create_lecture_admin_subject_path do |f|
+      = f.error_messages
+      %table
+        %tr.odd
+          %th.form_title Dzień tygodnia, godzina
+          %td.form_content
+            = "brak" if @lectures.blank?
+            - for lecture in @lectures do
+              = day_of_week(lecture.day_of_week) + ",  godz. " + lecture.order_of_the_day.start.strftime("%H:%M") + " - " + lecture.order_of_the_day.end.strftime("%H:%M")
+              = link_to "[usuń]", delete_lecture_admin_subjects_path(:id => @subject.id, :lecture_id  => lecture.id), :confirm => "Jesteś tego pewien?", :method => 'delete_lecture'
+              %br
+        %tr.even
+          %th.form_title Dodaj nowy termin
+          %td.form_content
+            = f.select :day_of_week, [ ['Poniedziałek','1'], ['Wtorek','2'], ['Środa','3'], ['Czwartek','4'], ['Piątek','5'], ['Sobota','6'], ['Niedziela','7'] ]
+            = f.select :order_of_the_day_id, OrderOfTheDay.find(:all, :order => 'start ASC').map{|o| [o.start.strftime("%H:%M") + " - " + o.end.strftime("%H:%M"), o.id]}
+            = f.submit "Dodaj", :class => 'submit'
     = link_to 'Wstecz', session[:return_to]

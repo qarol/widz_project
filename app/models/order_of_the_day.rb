@@ -1,4 +1,5 @@
 class OrderOfTheDay < ActiveRecord::Base
+  has_many :lectures
   validate :start_time_before_end_time
 
   private

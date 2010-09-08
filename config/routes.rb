@@ -19,13 +19,17 @@ ActionController::Routing::Routes.draw do |map|
                     :collection => { :delete_user => :delete }
     admin.resource :preference,
                     :member => { :create_subject_name => :post, :destroy_subject_name => :delete }
-    admin.resources :subjects
+    admin.resources :subjects,
+                    :member => { :create_lecture => :post },
+                    :collection => { :delete_lecture => :delete }
     admin.resources :semesters, :collection => { :edit_change_semester => :get, :update_change_semester => :put } do |semester|
       semester.resources :classrooms,
                          :collection => { :delete_user => :delete }
       semester.resources :groups,
                          :collection => { :delete_user => :delete }
-      semester.resources :subjects
+      semester.resources :subjects,
+                         :member => { :create_lecture => :post },
+                         :collection => { :delete_lecture => :delete }
     end
   end
 
