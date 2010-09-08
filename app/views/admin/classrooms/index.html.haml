@@ -7,7 +7,7 @@
         %tr
           %th Nr sali
           %th Nazwa klasy
-          %th Rok utworzenia
+          %th Rok rozpoczęcia nauki
           %th Wychowawca
           %th Liczba uczniów
           %th Pokaż
@@ -23,7 +23,7 @@
               %td= h classroom.year.to_s
               %td= (classroom.educator_name.nil?) ? "brak" : (link_to h(classroom.educator_name + " " + classroom.educator_lastname), admin_user_path(classroom.educator))
               %td= classroom.students.size
-              %td= link_to "Pokaż", admin_classroom_path(classroom)
-              %td= link_to "Edytuj", edit_admin_classroom_path(classroom)
+              %td= link_to "Pokaż", admin_semester_classroom_path(@semester,classroom)
+              %td= link_to "Edytuj", edit_admin_semester_classroom_path(@semester,classroom)
       %br
     = link_to 'Dodaj klasę', new_admin_semester_classroom_path(@semester)

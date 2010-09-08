@@ -23,7 +23,7 @@
               - if subject.team_type == "Group"
                 = link_to (h subject.team.name_of_group + " (grupa)"), admin_semester_group_path(@semester, subject.team)
               - else
-                = link_to (h subject.team.name_of_class + " (klasa)"), admin_semester_classroom_path(@semester, subject.team)
+                = link_to (subject.team.current_year(params[:semester_id]).to_s + subject.team.name_of_class + " (klasa)"), admin_semester_classroom_path(@semester, subject.team)
           %td= link_to "Pokaż", admin_semester_subject_path(@semester,subject)
           %td= link_to "Edytuj", edit_admin_semester_subject_path(@semester,subject)
     %br

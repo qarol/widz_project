@@ -7,7 +7,7 @@ class Admin::SubjectsController < ApplicationController
 
   def new
     @semester = Semester.choosen_or_current(params[:semester_id])
-    classrooms = @semester.classrooms_of_year(false).flatten.map{|cl| [cl.name_of_class, "Classroom_" + cl.id.to_s]}
+    classrooms = @semester.classrooms_of_year(false).flatten.map{|cl| [cl.current_year(params[:semester_id]).to_s + cl.name_of_class, "Classroom_" + cl.id.to_s]}
     groups = @semester.groups_of_year(false).flatten.map{|cl| [cl.name_of_group, "Groups_" + cl.id.to_s]}
     @team = [ [ 'Grupa', groups ], [ 'Klasa', classrooms ] ]
     @subject = @semester.subjects.build
@@ -20,13 +20,17 @@ class Admin::SubjectsController < ApplicationController
 
   def edit
     @semester = Semester.choosen_or_current(params[:semester_id])
-    classrooms = @semester.classrooms_of_year(false).flatten.map{|cl| [cl.name_of_class, "Classroom_" + cl.id.to_s]}
+    classrooms = @semester.classrooms_of_year(false).flatten.map{|cl| [cl.current_year(params[:semester_id]).to_s + cl.name_of_class, "Classroom_" + cl.id.to_s]}
     groups = @semester.groups_of_year(false).flatten.map{|cl| [cl.name_of_group, "Groups_" + cl.id.to_s]}
     @team = [ [ 'Grupa', groups ], [ 'Klasa', classrooms ] ]
     @subject = Subject.find(params[:id])
   end
 
   def create
+    @semester = Semester.choosen_or_current(params[:semester_id])
+    classrooms = @semester.classrooms_of_year(false).flatten.map{|cl| [cl.current_year(params[:semester_id]).to_s + cl.name_of_class, "Classroom_" + cl.id.to_s]}
+    groups = @semester.groups_of_year(false).flatten.map{|cl| [cl.name_of_group, "Groups_" + cl.id.to_s]}
+    @team = [ [ 'Grupa', groups ], [ 'Klasa', classrooms ] ]
     name,id = params[:team_type_id].split("_")
     @subject = Subject.new(params[:subject])
     @subject.team = name.classify.constantize.find(id)
@@ -39,6 +43,10 @@ class Admin::SubjectsController < ApplicationController
   end
 
   def update
+    @semester = Semester.choosen_or_current(params[:semester_id])
+    classrooms = @semester.classrooms_of_year(false).flatten.map{|cl| [cl.current_year(params[:semester_id]).to_s + cl.name_of_class, "Classroom_" + cl.id.to_s]}
+    groups = @semester.groups_of_year(false).flatten.map{|cl| [cl.name_of_group, "Groups_" + cl.id.to_s]}
+    @team = [ [ 'Grupa', groups ], [ 'Klasa', classrooms ] ]
     name,id = params[:team_type_id].split("_")
     @subject = Subject.find(params[:id])
     @subject.team = name.classify.constantize.find(id)

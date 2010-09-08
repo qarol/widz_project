@@ -35,7 +35,7 @@ class Admin::ClassroomsController < Admin::AdminController
     @classroom = Classroom.find(params[:id])
     if @classroom.update_attributes(params[:classroom])
       flash[:notice] = 'Dane klasy zostały zaktualizowane'
-      redirect_to [:admin, @classroom]
+      redirect_back_or_default [:admin, @semester, @classroom]
     else
       render :action => 'edit'
     end
@@ -45,7 +45,7 @@ class Admin::ClassroomsController < Admin::AdminController
     @classroom = Classroom.find(params[:id])
     @classroom.users.delete(User.find(params[:user_id]))
     flash[:notice] = 'Usunięto pomyślnie użytkownika'
-    redirect_to [:admin, @classroom]
+    redirect_back_or_default [:admin, @semester, @classroom]
   end
 
 end

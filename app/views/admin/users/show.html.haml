@@ -37,7 +37,7 @@
         %tr#even
           %th.form_title Wychowawstwo klasy
           %td.form_content
-            = @user.classroom_educators.blank? ? "brak" : @user.classroom_educators.map{|ce| link_to (ce.current_year.to_s+ce.name_of_class), admin_classroom_path(ce) + " "}.join(", ")
+            = @user.classroom_educators.blank? ? "brak" : @user.classroom_educators.map{|ce| link_to (ce.current_year(params[:semester_id]).to_s+ce.name_of_class), admin_classroom_path(ce) + " "}.join(", ")
       %tr#odd
         %th.form_title Grupa(-y):
         %td.form_content
