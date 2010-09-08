@@ -1,44 +1,25 @@
 #box
-  #box_title Zmień parametry klasy
+  #box_title Zmień parametry przedmiotu
   #box_content
-    - form_for [:admin, @classroom] do |f|
+    - form_for [:admin, @subject] do |f|
       = f.error_messages
-      %h1 Dane klasy
+      %h1 Dane przedmiotu
       %table
         %tr.odd
-          %th.form_title Sala:
-          %td.form_content= f.text_field :hall
+          %th.form_title Przedmiot
+          %td.form_content
+            = f.select :subject_name_id, SubjectName.all.map{|s| [s.name, s.id]}, :include_blank => '-- Wybierz przedmiot --'
+            = link_to "dodaj nowy", edit_admin_preference_path(:anchor => 'add_subject_name'), :target => "_blank"
         %tr.even
-          %th.form_title Aktualny rok
-          %td.form_content= @classroom.current_year.to_s
+          %th.form_title Semestr
+          %td.form_content= f.select :semester_id, Semester.find(:all, :order => 'year DESC, semester DESC').map{|s| [s.year.to_s+"/"+(s.year+1).to_s+" "+s.h_semester, s.id]}, :include_blank => '-- Wybierz semestr --'
         %tr.odd
-          %th.form_title Nazwa klasy:
-          %td.form_content= f.text_field :name_of_class
+          %th.form_title Nauczyciel
+          %td.form_content= f.select :user_id, User.teachers.map{|s| [s.name + " " + s.lastname, s.id]}, :include_blank => '-- Wybierz nauczyciela --'
         %tr.even
-          %th.form_title Rok utworzenia
-          %td.form_content= f.select :year, (1990..(Date.today.year.to_i)).to_a
-        %tr.odd
-          %th.form_title Wychowawca:
-          %td.form_content= f.select :user_id, User.all.select{|u| u.is_teacher?}.map{|u| [u.name.capitalize + " " + u.lastname.capitalize + " (" + u.login + ")", u.id]}, :include_blank => '-- Wybierz wychowawcę --'
-        %tr.even
-          %th.form_title Liczba uczniów
-          %td.form_content= @classroom.students.size
-      = f.submit "Zapisz", :class => 'submit'
-      %br
-      %h1 Uczniowe należący do klasy
-      %table
-        %tr
-          %th Nr
-          %th Imię i nazwisko
-          %th Usuń z klasy
-        - if @users.empty?
-          %tr
-            %td{:colspan => 3} brak
-        - else
-          - @users.each_with_index do |user, index|
-            %tr{:id => cycle('even','odd')}
-              %td= index+1
-              %td= link_to h(user.name.capitalize + " " + user.lastname.capitalize), admin_user_path(user)
-              %td= link_to "usuń", delete_user_admin_classrooms_path(:id => @classroom, :user_id => user), :confirm => "Jesteś tego pewien?", :method => :delete_user
+          %th.form_title Klasa/Grupa
+          %td.form_content
+            = select_tag :team_type_id, grouped_options_for_select(@team, @subject.team_type_id)
+      = f.submit "Zapisz", :class => "submit"
     %br
-    = link_to 'Wstecz', admin_classrooms_path
+    = link_to 'Wstecz', session[:return_to]

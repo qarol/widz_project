@@ -1,2 +1,26 @@
-<h1>Admin::Subjects#show</h1>
-<p>Find me in app/views/admin/subjects/show.html.erb</p>
+#box
+  #box_title Dane przedmiotu
+  #box_content
+    - form_for [:admin, @subject] do |f|
+      = f.error_messages
+      %h1 Dane przedmiotu
+      %table
+        %tr.odd
+          %th.form_title Przedmiot
+          %td.form_content= @subject.subject_name_name
+        %tr.even
+          %th.form_title Semestr
+          %td.form_content= @subject.semester_year.to_s
+        %tr.odd
+          %th.form_title Nauczyciel
+          %td.form_content= link_to (h @subject.user_name + " " + (h @subject.user_lastname)), admin_user_path(@subject.user) unless @subject.user.nil?
+        %tr.even
+          %th.form_title Klasa/Grupa
+          %td.form_content
+            - unless @subject.team.blank?
+              - if @subject.team_type == "Group"
+                = link_to (h @subject.team.name_of_group + " (grupa)"), admin_semester_group_path(@semester, @subject.team)
+              - else
+                = link_to (h @subject.team.name_of_class + " (klasa)"), admin_semester_classroom_path(@semester, @subject.team)
+    %br
+    = link_to 'Wstecz', session[:return_to]

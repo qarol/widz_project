@@ -6,6 +6,8 @@ class Semester < ActiveRecord::Base
   validate :max_1_choosen_semester
 
   has_many :classrooms, :foreign_key => 'year', :primary_key => 'year'
+  has_many :groups, :foreign_key => 'year', :primary_key => 'year'
+  has_many :subjects
 
   def self.choosen
     Semester.find(:first, :conditions => { :active => true })
@@ -24,6 +26,13 @@ class Semester < ActiveRecord::Base
       (0..3).to_a.map{|n| Classroom.find(:all, :conditions => [ 'year = ?', self.year + 1 - n ], :order => 'name_of_class ASC')}
     else
       Classroom.find(:all, :conditions => [ 'year = ?', self.year + 1 - year ], :order => 'name_of_class ASC')
+    end
+  end
+  def groups_of_year year=nil
+    if year.nil?
+      (0..3).to_a.map{|n| Group.find(:all, :conditions => [ 'year = ?', self.year + 1 - n ], :order => 'name_of_group ASC')}
+    else
+      Group.find(:all, :conditions => [ 'year = ?', self.year + 1 - year ], :order => 'name_of_group ASC')
     end
   end
 

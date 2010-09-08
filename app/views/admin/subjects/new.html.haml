@@ -7,9 +7,19 @@
       %table
         %tr.odd
           %th.form_title Przedmiot
-          %td.form_content= f.select :subject_name, SubjectName.all.map{|s| [s.name, s.id]}, :include_blank => '-- Wybierz przedmiot --'
+          %td.form_content
+            = f.select :subject_name_id, SubjectName.all.map{|s| [s.name, s.id]}, :include_blank => '-- Wybierz przedmiot --'
+            = link_to "dodaj nowy", edit_admin_preference_path(:anchor => 'add_subject_name'), :target => "_blank"
         %tr.even
           %th.form_title Semestr
-          %td.form_content= f.select :semester, Semester.find(:all, :order => 'year DESC, semester DESC').map{|s| [s.year.to_s+"/"+(s.year+1).to_s+" "+s.h_semester, s.id]}, :include_blank => '-- Wybierz semestr --'
+          %td.form_content= f.select :semester_id, Semester.find(:all, :order => 'year DESC, semester DESC').map{|s| [s.year.to_s+"/"+(s.year+1).to_s+" "+s.h_semester, s.id]}, :include_blank => '-- Wybierz semestr --'
+        %tr.odd
+          %th.form_title Nauczyciel
+          %td.form_content= f.select :user_id, User.teachers.map{|s| [s.name + " " + s.lastname, s.id]}, :include_blank => '-- Wybierz nauczyciela --'
+        %tr.even
+          %th.form_title Klasa/Grupa
+          %td.form_content
+            = select_tag :team_type_id, grouped_options_for_select(@team)
+      = f.submit "Zapisz", :class => "submit"
     %br
-    = link_to 'Wstecz', admin_subjects_path
+    = link_to 'Wstecz', session[:return_to]

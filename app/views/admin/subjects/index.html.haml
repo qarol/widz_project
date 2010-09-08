@@ -7,19 +7,22 @@
         %tr
           %th Nazwa
           %th Rok/semestr
-          %th Klasa/grupa
           %th Nauczyciel
+          %th Klasa/grupa
           %th Pokaż
           %th Edytuj
         - for subject in @subjects
           %tr{:id => cycle('even','odd')}
-            %td= h subject.subject_name.name
-            %td= h subject.semester.year.to_s
-            %td= h subject.team
-            %td= h subject.user.name
-            %td= link_to "Pokaż", admin_classroom_path(classroom)
-            %td= link_to "Edytuj", edit_admin_classroom_path(classroom)
+            %td= h subject.subject_name_name
+            %td= h subject.semester_year.to_s
+            %td= link_to (h subject.user_name + " " + (h subject.user_lastname)), admin_user_path(subject.user)
+            %td
+              - unless subject.team.blank?
+                - if subject.team_type == "Group"
+                  = link_to (h subject.team.name_of_group + " (grupa)"), admin_semester_group_path(@semester, subject.team)
+                - else
+                  = link_to (h subject.team.name_of_class + " (klasa)"), admin_semester_classroom_path(@semester, subject.team)
+            %td= link_to "Pokaż", admin_semester_subject_path(@semester,subject)
+            %td= link_to "Edytuj", edit_admin_semester_subject_path(@semester,subject)
     %br
-    = link_to 'Wstecz', :back
-    |
-    = link_to 'Dodaj przedmiot', new_admin_subject_path
+    = link_to 'Dodaj przedmiot', new_admin_semester_subject_path(@semester)
