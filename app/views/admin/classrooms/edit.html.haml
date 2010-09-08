@@ -1,9 +1,15 @@
 #box
-  #box_title Zmień parametry klasy
+  #box_title= "Klasa " + @classroom.name_of_class + " (" + @classroom.year.to_s + " - " + (@classroom.year+3).to_s + ")"
+  %p{:style => "margin:6px"}= link_to "... powróć do listy klas", admin_semester_classrooms_path
+  .invertedshiftdown2
+    %ul
+      %li.current= link_to "Dane klasy", admin_semester_classroom_path
+      %li= link_to "Uczniowie", students_admin_semester_classroom_path
+      %li= link_to "Plan zajęć", schedule_admin_semester_classroom_path
+  .clear
   #box_content
     - form_for [:admin, @classroom] do |f|
       = f.error_messages
-      %h1 Dane klasy
       %table
         %tr.odd
           %th.form_title Sala:
@@ -24,21 +30,5 @@
           %th.form_title Liczba uczniów
           %td.form_content= @classroom.students.size
       = f.submit "Zapisz", :class => 'submit'
-      %br
-      %h1 Uczniowe należący do klasy
-      %table
-        %tr
-          %th Nr
-          %th Imię i nazwisko
-          %th Usuń z klasy
-        - if @users.empty?
-          %tr
-            %td{:colspan => 3} brak
-        - else
-          - @users.each_with_index do |user, index|
-            %tr{:id => cycle('even','odd')}
-              %td= index+1
-              %td= link_to h(user.name.capitalize + " " + user.lastname.capitalize), admin_user_path(user)
-              %td= link_to "usuń", delete_user_admin_classrooms_path(:id => @classroom, :user_id => user), :confirm => "Jesteś tego pewien?", :method => :delete_user
     %br
-    = link_to 'Wstecz', session[:return_to]
+    = link_to 'Anuluj', admin_semester_classroom_path

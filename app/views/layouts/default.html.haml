@@ -4,6 +4,7 @@
     %meta{'http-equiv' => "Content-Type", :content => "text/html; charset=utf-8"}
     %title WiDz - Wirtualny Dziennik
     = stylesheet_link_tag 'admin'
+    = stylesheet_link_tag 'menu'
     = javascript_include_tag :defaults
   %body
     #wrapper
@@ -44,7 +45,7 @@
                 %li= link_to "Użytkownicy", admin_users_path
                 %li= link_to "Ustawienia", edit_admin_preference_path
               %div{:style => "text-align:center; width:100%; color:white"}
-                Wybrany semestr do edycji:
+                Wybrany semestr do przeglądu:
                 %br
                 - if Semester.choosen.blank?
                   brak wybranego semestru

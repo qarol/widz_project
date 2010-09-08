@@ -21,6 +21,15 @@ class Semester < ActiveRecord::Base
     Semester.find_by_id(semester_id) || self.current
   end
 
+  def self.choosen_or_current_next semester_id
+    sem = self.choosen_or_current semester_id
+    Semester.find_by_semester(sem.semester%2+1, :conditions => { :year => sem.year+(sem.semester+1)%2 })
+  end
+  def self.choosen_or_current_previous semester_id
+    sem = self.choosen_or_current semester_id
+    Semester.find_by_semester(sem.semester%2+1, :conditions => { :year => sem.year-(sem.semester%2) })
+  end
+
   def classrooms_of_year null=true, year=nil
     result = []
     if year.nil?
@@ -52,6 +61,9 @@ class Semester < ActiveRecord::Base
     else
       "nieokreślony"
     end
+  end
+  def year_and_semester
+    self.school_year + " " + self.h_semester
   end
 
   def self.update_active active_id

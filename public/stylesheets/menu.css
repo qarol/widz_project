@@ -1,0 +1,70 @@
+/*Credits: Dynamic Drive CSS Library */
+/*URL: http://www.dynamicdrive.com/style/ */
+
+.invertedshiftdown2{
+  padding: 0;
+  width: 100%;
+  border-top: 5px solid #5e5e5e; /*Highlight red color theme*/
+  background: transparent;
+  voice-family: "\"}\"";
+  voice-family: inherit;
+}
+
+.invertedshiftdown2 ul{
+  margin:0;
+  margin-left: 40px; /*margin between first menu item and left browser edge*/
+  padding: 0;
+  list-style: none;
+}
+
+.invertedshiftdown2 li{
+  display: inline;
+  margin: 0 2px 0 0;
+  padding: 0;
+  text-transform:uppercase;
+}
+
+.invertedshiftdown2 a{
+  float: left;
+  display: block;
+  font: bold 12px Arial;
+  color: white;
+  text-decoration: none;
+  margin: 0 1px 0 0; /*Margin between each menu item*/
+  padding: 5px 10px 5px 10px; /*Padding within each menu item*/
+  background-color: #5e5e5e; /*Default menu color*/
+  border-bottom: 3px solid white;
+}
+
+.invertedshiftdown2 a:hover {
+  background-color: #ff4500; /*Highlight red color theme*/
+  color: white;
+}
+
+.invertedshiftdown2 .current a{ /** currently selected menu item **/
+  background-color: #5e5e5e; /*Highlight red color theme*/
+  padding-top: 5px; /*Set padding-top value to default's padding-top + padding-bottom */
+  padding-bottom: 5px; /*Set padding-bottom value to 0 */
+  border-bottom-color: #ff4500; /*Highlight red color theme*/
+  color: white;
+}
+
+#myform{ /*CSS for sample search box. Remove if desired */
+  float: right;
+  margin: 0;
+  margin-top: 2px;
+  padding: 0;
+}
+
+#myform .textinput{
+  width: 190px;
+  border: 1px solid gray;
+}
+
+#myform .submit{
+  font: normal 12px Verdana;
+  height: 22px;
+  border: 1px solid #5e5e5e;
+  background-color: black;
+  color: white;
+}

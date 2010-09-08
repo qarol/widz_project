@@ -8,8 +8,14 @@ class Classroom < ActiveRecord::Base
 
   named_scope :choose_year, lambda { |year_ago| { :conditions => ['year = ?', only_current_year - year_ago] }}
 
+  validates_uniqueness_of :name_of_class, :scope => :year
+
   def students
     self.users.select{|u| u.is_student?}
+  end
+
+  def school_year
+    self.year.to_s + "/" + (self.year+1).to_s
   end
 
   def current_year semester_id

@@ -1,29 +1,34 @@
 #box
   #box_title Klasy
   #box_content
-    - 0.upto(3) do |y|
-      %h1= (y==0) ? "Rozpoczną naukę w nowym roku szkolnym" : y.to_s + " klasa"
+    %div{:style => "text-align:center; padding:5px; width:100%"}
+      %h2
+        = link_to (image_tag "admin/arrow-left.jpg"), admin_semester_classrooms_path(Semester.choosen_or_current_previous(params[:semester_id]) ) if Semester.choosen_or_current_previous(params[:semester_id])
+        = Semester.choosen_or_current(params[:semester_id]).year_and_semester
+        = link_to (image_tag "admin/arrow-right.jpg"), admin_semester_classrooms_path(Semester.choosen_or_current_next(params[:semester_id]) ) if Semester.choosen_or_current_next(params[:semester_id])
+    %div.clear
+    %br
+    - 1.upto(3) do |y|
+      %h1= y.to_s + " klasa"
       %table
         %tr
-          %th Nr sali
           %th Nazwa klasy
-          %th Rok rozpoczęcia nauki
+          %th Lata nauki
           %th Wychowawca
           %th Liczba uczniów
+          %th Nr sali
           %th Pokaż
-          %th Edytuj
         - if @classrooms[y].blank?
           %tr
-            %td{:colspan => 7} brak
+            %td{:colspan => 6} brak
         - else
           - for classroom in @classrooms[y]
             %tr{:id => cycle('even','odd')}
-              %td= h classroom.hall
               %td= h classroom.name_of_class
-              %td= h classroom.year.to_s
+              %td= (h classroom.year.to_s) + " - " + (classroom.year+3).to_s
               %td= (classroom.educator_name.nil?) ? "brak" : (link_to h(classroom.educator_name + " " + classroom.educator_lastname), admin_user_path(classroom.educator))
               %td= classroom.students.size
+              %td= h classroom.hall
               %td= link_to "Pokaż", admin_semester_classroom_path(@semester,classroom)
-              %td= link_to "Edytuj", edit_admin_semester_classroom_path(@semester,classroom)
       %br
     = link_to 'Dodaj klasę', new_admin_semester_classroom_path(@semester)

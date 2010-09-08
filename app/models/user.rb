@@ -36,9 +36,7 @@ class User < ActiveRecord::Base
 
   validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
   validates_length_of       :name,     :maximum => 100
-  validates_presence_of     :name
 
-  validates_presence_of     :lastname
   validates_length_of       :lastname,     :maximum => 100
 
   validates_presence_of     :email
