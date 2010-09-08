@@ -21,21 +21,28 @@ class Semester < ActiveRecord::Base
     Semester.find_by_id(semester_id) || self.current
   end
 
-  def classrooms_of_year year=nil
+  def classrooms_of_year null=true, year=nil
+    result = []
     if year.nil?
-      (0..3).to_a.map{|n| Classroom.find(:all, :conditions => [ 'year = ?', self.year + 1 - n ], :order => 'name_of_class ASC')}
+      result = [Classroom.find(:all, :conditions => [ 'year = ?', self.year + 1 ], :order => 'name_of_class ASC')] if null
+      result += (1..3).to_a.map{|n| Classroom.find(:all, :conditions => [ 'year = ?', self.year + 1 - n ], :order => 'name_of_class ASC')}
     else
       Classroom.find(:all, :conditions => [ 'year = ?', self.year + 1 - year ], :order => 'name_of_class ASC')
     end
   end
-  def groups_of_year year=nil
+  def groups_of_year null=true, year=nil
+    result = []
     if year.nil?
-      (0..3).to_a.map{|n| Group.find(:all, :conditions => [ 'year = ?', self.year + 1 - n ], :order => 'name_of_group ASC')}
+      result = [Group.find(:all, :conditions => [ 'year = ?', self.year + 1 ], :order => 'name_of_group ASC')] if null
+      result += (1..3).to_a.map{|n| Group.find(:all, :conditions => [ 'year = ?', self.year + 1 - n ], :order => 'name_of_group ASC')}
     else
       Group.find(:all, :conditions => [ 'year = ?', self.year + 1 - year ], :order => 'name_of_group ASC')
     end
   end
 
+  def school_year
+    self.year.to_s + "/" + (self.year+1).to_s
+  end
   def h_semester
     case self.semester
     when 1

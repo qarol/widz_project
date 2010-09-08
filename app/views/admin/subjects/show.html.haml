@@ -10,12 +10,12 @@
           %td.form_content= @subject.subject_name_name
         %tr.even
           %th.form_title Semestr
-          %td.form_content= @subject.semester_year.to_s
+          %td.form_content= (h @subject.semester_school_year) + " (" + (h @subject.semester_h_semester) + ")"
         %tr.odd
           %th.form_title Nauczyciel
           %td.form_content= link_to (h @subject.user_name + " " + (h @subject.user_lastname)), admin_user_path(@subject.user) unless @subject.user.nil?
         %tr.even
-          %th.form_title Klasa/Grupa
+          %th.form_title Grupa/Klasa
           %td.form_content
             - unless @subject.team.blank?
               - if @subject.team_type == "Group"

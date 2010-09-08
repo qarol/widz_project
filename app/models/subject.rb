@@ -5,7 +5,7 @@ class Subject < ActiveRecord::Base
   belongs_to :subject_name
 
   delegate :name, :to => :subject_name, :prefix => true, :allow_nil => true
-  delegate :year, :to => :semester, :prefix => true, :allow_nil => true
+  delegate :year, :school_year, :h_semester, :to => :semester, :prefix => true, :allow_nil => true
   delegate :name, :lastname, :to => :user, :prefix => true, :allow_nil => true
 
   def team_type_id

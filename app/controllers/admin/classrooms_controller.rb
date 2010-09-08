@@ -7,7 +7,7 @@ class Admin::ClassroomsController < Admin::AdminController
 
   def new
     @semester = Semester.choosen_or_current(params[:semester_id])
-    @classroom = Classroom.new(:year => @semester.try(:year))
+    @classroom = @semester.classrooms.build
   end
 
   def create

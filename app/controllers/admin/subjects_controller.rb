@@ -1,28 +1,28 @@
 class Admin::SubjectsController < ApplicationController
   def index
     @semester = Semester.choosen_or_current(params[:semester_id])
-    @subjects = Subject.all
+    @subjects = @semester.subjects
     store_location
   end
 
   def new
     @semester = Semester.choosen_or_current(params[:semester_id])
-    @classrooms = @semester.classrooms_of_year.flatten.map{|cl| [cl.name_of_class, "Classroom_" + cl.id.to_s]}
-    @groups = @semester.groups_of_year.flatten.map{|cl| [cl.name_of_group, "Groups_" + cl.id.to_s]}
-    @team = [ [ 'Grupa', @groups ], [ 'Klasa', @classrooms ] ]
+    classrooms = @semester.classrooms_of_year(false).flatten.map{|cl| [cl.name_of_class, "Classroom_" + cl.id.to_s]}
+    groups = @semester.groups_of_year(false).flatten.map{|cl| [cl.name_of_group, "Groups_" + cl.id.to_s]}
+    @team = [ [ 'Grupa', groups ], [ 'Klasa', classrooms ] ]
     @subject = @semester.subjects.build
   end
 
   def show
     @semester = Semester.choosen_or_current(params[:semester_id])
-    @subject = Subject.find(params[:id])
+    @subject = @semester.subjects.find(params[:id])
   end
 
   def edit
     @semester = Semester.choosen_or_current(params[:semester_id])
-    @classrooms = @semester.classrooms_of_year.flatten.map{|cl| [cl.name_of_class, "Classroom_" + cl.id.to_s]}
-    @groups = @semester.groups_of_year.flatten.map{|cl| [cl.name_of_group, "Groups_" + cl.id.to_s]}
-    @team = [ [ 'Grupa', @groups ], [ 'Klasa', @classrooms ] ]
+    classrooms = @semester.classrooms_of_year(false).flatten.map{|cl| [cl.name_of_class, "Classroom_" + cl.id.to_s]}
+    groups = @semester.groups_of_year(false).flatten.map{|cl| [cl.name_of_group, "Groups_" + cl.id.to_s]}
+    @team = [ [ 'Grupa', groups ], [ 'Klasa', classrooms ] ]
     @subject = Subject.find(params[:id])
   end
 
