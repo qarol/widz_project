@@ -1,0 +1,31 @@
+#box
+  #box_title Klasy
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Aktualne", admin_semester_classrooms_path
+      %li.current= link_to "Absolwenci", graduates_admin_semester_classrooms_path
+      %li= link_to "Nowe", future_admin_semester_classrooms_path
+  .clear
+  #box_content
+    %h1 Klasy z absolwentami
+    %table
+      %tr
+        %th Nazwa klasy
+        %th Lata nauki
+        %th Wychowawca
+        %th Liczba uczniów
+        %th Nr sali
+        %th Pokaż
+      - if @classrooms.blank?
+        %tr
+          %td{:colspan => 6} brak
+      - for classroom in @classrooms
+        %tr{:id => cycle('even','odd')}
+          %td= h classroom.name_of_class
+          %td= (h classroom.year.to_s) + " - " + (classroom.year+3).to_s
+          %td= (classroom.educator_name.nil?) ? "brak" : (link_to h(classroom.educator_name + " " + classroom.educator_lastname), admin_user_path(classroom.educator))
+          %td= classroom.students.size
+          %td= h classroom.hall
+          %td= link_to "Pokaż", admin_semester_classroom_path(@semester,classroom)
+    %br
+    = link_to 'Dodaj klasę', new_admin_semester_classroom_path(@semester)

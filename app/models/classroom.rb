@@ -7,6 +7,8 @@ class Classroom < ActiveRecord::Base
   delegate :name, :lastname, :to => :educator, :prefix => true, :allow_nil => true
 
   named_scope :choose_year, lambda { |year_ago| { :conditions => ['year = ?', only_current_year - year_ago] }}
+  named_scope :graduates, :conditions => [ 'year <= ?',  Semester.current.year - 3 ], :order => 'year DESC'
+  named_scope :future, :conditions => [ 'year >= ?',  Semester.current.year + 1 ], :order => 'year ASC'
 
   validates_uniqueness_of :name_of_class, :scope => :year
 

@@ -68,4 +68,14 @@ class Admin::ClassroomsController < Admin::AdminController
     @schedule = @classroom.subjects.all(:conditions => { :semester_id => @semester.id }).map(&:lectures).flatten
   end
 
+  def graduates
+    @semester = Semester.choosen_or_current(params[:semester_id])
+    @classrooms = Classroom.graduates
+  end
+
+  def future
+    @semester = Semester.choosen_or_current(params[:semester_id])
+    @classrooms = Classroom.future
+  end
+
 end

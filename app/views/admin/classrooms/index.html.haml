@@ -1,13 +1,12 @@
 #box
   #box_title Klasy
+  .invertedshiftdown2
+    %ul
+      %li.current= link_to "Aktualne", admin_semester_classrooms_path
+      %li= link_to "Absolwenci", graduates_admin_semester_classrooms_path
+      %li= link_to "Nowe", future_admin_semester_classrooms_path
+  .clear
   #box_content
-    %div{:style => "text-align:center; padding:5px; width:100%"}
-      %h2
-        = link_to (image_tag "admin/arrow-left.jpg"), admin_semester_classrooms_path(Semester.choosen_or_current_previous(params[:semester_id]) ) if Semester.choosen_or_current_previous(params[:semester_id])
-        = Semester.choosen_or_current(params[:semester_id]).year_and_semester
-        = link_to (image_tag "admin/arrow-right.jpg"), admin_semester_classrooms_path(Semester.choosen_or_current_next(params[:semester_id]) ) if Semester.choosen_or_current_next(params[:semester_id])
-    %div.clear
-    %br
     - 1.upto(3) do |y|
       %h1= y.to_s + " klasa"
       %table
