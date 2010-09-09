@@ -14,13 +14,14 @@ ActionController::Routing::Routes.draw do |map|
                     :collection => { :delete_parent => :delete, :delete_child => :delete, :delete_classroom => :delete, :delete_group => :delete },
                     :member => { :update_family_ties => :put, :update_classroom => :put, :update_group => :put }
     admin.resources :classrooms,
-                    :collection => { :delete_user => :delete }
+                    :collection => { :delete_user => :delete, :graduates => :get, :future => :get },
+                    :member => { :students => :get, :schedule => :get }
     admin.resources :groups,
                     :collection => { :delete_user => :delete }
     admin.resource :preference,
                     :member => { :create_subject_name => :post, :destroy_subject_name => :delete }
     admin.resources :subjects,
-                    :member => { :create_lecture => :post },
+                    :member => { :create_lecture => :post, :timetable => :get },
                     :collection => { :delete_lecture => :delete }
     admin.resources :semesters, :collection => { :edit_change_semester => :get, :update_change_semester => :put } do |semester|
       semester.resources :classrooms,

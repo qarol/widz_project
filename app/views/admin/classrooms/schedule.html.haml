@@ -1,11 +1,11 @@
 #box
   #box_title= "Klasa " + @classroom.name_of_class + " (" + @classroom.year.to_s + " - " + (@classroom.year+3).to_s + ")"
-  %p{:style => "margin:6px"}= link_to "... powróć do listy klas", admin_semester_classrooms_path
+  %p{:style => "margin:6px"}= link_to "... powróć do listy klas", admin_classrooms_path
   .invertedshiftdown2
     %ul
-      %li= link_to "Dane klasy", admin_semester_classroom_path
-      %li= link_to "Uczniowie", students_admin_semester_classroom_path
-      %li.current= link_to "Plan zajęć", schedule_admin_semester_classroom_path
+      %li= link_to "Dane klasy", admin_classroom_path
+      %li= link_to "Uczniowie", students_admin_classroom_path
+      %li.current= link_to "Plan zajęć", schedule_admin_classroom_path
   .clear
   #box_content
     %div{:style => "width:100%; text-align:center"}

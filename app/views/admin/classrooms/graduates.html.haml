@@ -2,9 +2,9 @@
   #box_title Klasy
   .invertedshiftdown2
     %ul
-      %li= link_to "Aktualne", admin_semester_classrooms_path
-      %li.current= link_to "Absolwenci", graduates_admin_semester_classrooms_path
-      %li= link_to "Przyszłe", future_admin_semester_classrooms_path
+      %li= link_to "Aktualne", admin_classrooms_path
+      %li.current= link_to "Absolwenci", graduates_admin_classrooms_path
+      %li= link_to "Przyszłe", future_admin_classrooms_path
   .clear
   #box_content
     %h1 Klasy z absolwentami
@@ -26,6 +26,6 @@
           %td= (classroom.educator_name.nil?) ? "brak" : (link_to h(classroom.educator_name + " " + classroom.educator_lastname), admin_user_path(classroom.educator))
           %td= classroom.students.size
           %td= h classroom.hall
-          %td= link_to "Pokaż", admin_semester_classroom_path(@semester,classroom)
+          %td= link_to "Pokaż", admin_classroom_path(classroom)
     %br
-    = link_to 'Dodaj klasę', new_admin_semester_classroom_path(@semester)
+    = link_to 'Dodaj klasę', new_admin_classroom_path
