@@ -1,6 +1,12 @@
 class Admin::UsersController < Admin::AdminController
   def index
-    @users = User.all
+    if params[:role].blank?
+      @users = User.all
+    elsif params[:role]=="empty"
+      @users = User.all.select{|u| u.roles.empty?}
+    else
+      @users = User.all.select{|u| u.roles.map(&:name).include?(params[:role])}
+    end
   end
 
   def show

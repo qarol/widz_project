@@ -1,5 +1,32 @@
 #box
   #box_title Dane użytkownika
+  .invertedshiftdown2
+    %ul
+      - if params[:role].blank?
+        %li.current= link_to "Wszyscy", admin_users_path
+      - else
+        %li= link_to "Wszyscy", admin_users_path
+      - if params[:role] == "student"
+        %li.current= link_to "Uczeń", admin_users_path(:role => "student")
+      - else
+        %li= link_to "Uczeń", admin_users_path(:role => "student")
+      - if params[:role] == "parent"
+        %li.current= link_to "Opiekun", admin_users_path(:role => "parent")
+      - else
+        %li= link_to "Opiekun", admin_users_path(:role => "parent")
+      - if params[:role] == "teacher"
+        %li.current= link_to "Nauczyciel", admin_users_path(:role => "teacher")
+      - else
+        %li= link_to "Nauczyciel", admin_users_path(:role => "teacher")
+      - if params[:role] == "admin"
+        %li.current= link_to "Administrator", admin_users_path(:role => "admin")
+      - else
+        %li= link_to "Administrator", admin_users_path(:role => "admin")
+      - if params[:role] == "empty"
+        %li.current= link_to "bez ról", admin_users_path(:role => "empty")
+      - else
+        %li= link_to "bez ról", admin_users_path(:role => "empty")
+  .clear
   #box_content
     %table
       %tr#even
@@ -43,6 +70,6 @@
         %td.form_content
           = @user.groups.blank? ? "brak" : @user.groups.map{|ce| link_to ce.name_of_group, admin_group_path(ce) + " "}.join(", ")
     %br
-    = link_to 'Wstecz', admin_users_path
+    = link_to 'Wstecz', admin_users_path(:role => params[:role])
     |
     = link_to 'Edytuj informacje', edit_admin_user_path(@user)
