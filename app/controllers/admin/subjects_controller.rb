@@ -74,7 +74,9 @@ class Admin::SubjectsController < ApplicationController
     else
       flash[:error] = 'Termin nie został usunięty'
     end
-    redirect_to timetable_admin_semester_classroom_subject_path
+    @classroom = @subject.team
+    @semester = @subject.semester
+    redirect_to timetable_admin_semester_classroom_subject_path(@semester, @classroom, @subject)
   end
 
   private
