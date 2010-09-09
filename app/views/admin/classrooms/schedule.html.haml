@@ -8,6 +8,13 @@
       %li.current= link_to "Plan zajęć", schedule_admin_semester_classroom_path
   .clear
   #box_content
+    %div{:style => "width:100%; text-align:center"}
+      %h2
+        - if !Semester.choosen_or_current_previous(params[:semester_id]).nil? && Semester.choosen_or_current_previous(params[:semester_id]).year >= @classroom.year
+          = link_to (image_tag 'admin/arrow-left.jpg'), schedule_admin_semester_classroom_path(Semester.choosen_or_current_previous(params[:semester_id]), @classroom)
+        %span{:style => "margin: 0 10px 0 10px"}= Semester.choosen_or_current(params[:semester_id]).year_and_semester
+        - if !Semester.choosen_or_current_next(params[:semester_id]).nil? && Semester.choosen_or_current_next(params[:semester_id]).year < @classroom.year + 3
+          = link_to (image_tag 'admin/arrow-right.jpg'), schedule_admin_semester_classroom_path(Semester.choosen_or_current_next(params[:semester_id]), @classroom)
     %h1 Plan zajęć klasy
     %table
       %tr

@@ -9,10 +9,9 @@
         %th Nauczyciel
         %th Grupa/Klasa
         %th Pokaż
-        %th Edytuj
       - if @subjects.blank?
         %tr
-          %td{:colspan => 6} brak
+          %td{:colspan => 5} brak
       - for subject in @subjects
         %tr{:id => cycle('even','odd')}
           %td= h subject.subject_name_name
@@ -25,6 +24,5 @@
               - else
                 = link_to (subject.team.current_year(params[:semester_id]).to_s + subject.team.name_of_class + " (klasa)"), admin_semester_classroom_path(@semester, subject.team)
           %td= link_to "Pokaż", admin_semester_subject_path(@semester,subject)
-          %td= link_to "Edytuj", edit_admin_semester_subject_path(@semester,subject)
     %br
     = link_to 'Dodaj przedmiot', new_admin_semester_subject_path(@semester)

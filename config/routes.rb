@@ -29,7 +29,7 @@ ActionController::Routing::Routes.draw do |map|
       semester.resources :groups,
                          :collection => { :delete_user => :delete }
       semester.resources :subjects,
-                         :member => { :create_lecture => :post },
+                         :member => { :create_lecture => :post, :timetable => :get },
                          :collection => { :delete_lecture => :delete }
     end
   end
