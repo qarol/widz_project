@@ -5,7 +5,8 @@
     %ul
       %li= link_to "Dane klasy", admin_classroom_path
       %li= link_to "Uczniowie", students_admin_classroom_path
-      %li.current= link_to "Plan zajęć", schedule_admin_classroom_path
+      %li.current= link_to "Plan zajęć", schedule_admin_semester_classroom_path(@semester)
+      %li= link_to "Przedmioty", admin_semester_classroom_subjects_path(@semester, @classroom)
   .clear
   #box_content
     %div{:style => "width:100%; text-align:center"}

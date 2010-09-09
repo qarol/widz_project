@@ -1,10 +1,10 @@
 #box
   #box_title Dane przedmiotu
-  %p{:style => "margin:6px"}= link_to "... powróć do listy przedmiotów", admin_semester_subjects_path(@semester)
+  %p{:style => "margin:6px"}= link_to "... powróć do listy przedmiotów", admin_semester_classroom_subjects_path(@semester)
   .invertedshiftdown2
     %ul
-      %li= link_to "Dane przedmiotu", admin_semester_subject_path(@semester)
-      %li.current= link_to "Terminarz", timetable_admin_semester_subject_path(@semester)
+      %li= link_to "Dane przedmiotu", admin_semester_classroom_subject_path(@semester)
+      %li.current= link_to "Terminarz", timetable_admin_semester_classroom_subject_path(@semester)
   .clear
   #box_content
     %h1 Terminarz
@@ -25,7 +25,7 @@
                 %br
                 = link_to "[usuń]", delete_lecture_admin_subjects_path(:id => @subject.id, :lecture_id  => lecture.id), :confirm => "Jesteś tego pewien?", :method => 'delete_lecture'
     %br
-    - form_for [:admin, @lecture], :url => create_lecture_admin_subject_path do |f|
+    - form_for [:admin, @lecture], :url => create_lecture_admin_semester_classroom_subject_path do |f|
       = f.error_messages
       %table
         %tr.odd

@@ -1,5 +1,13 @@
 #box
   #box_title Dodaj nowy przedmiot
+  %p{:style => "margin:6px"}= link_to "... powróć do listy klas", admin_classrooms_path
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane klasy", admin_classroom_path(@classroom)
+      %li= link_to "Uczniowie", students_admin_classroom_path(@classroom)
+      %li= link_to "Plan zajęć", schedule_admin_semester_classroom_path(@semester, @classroom)
+      %li.current= link_to "Przedmioty", admin_semester_classroom_subjects_path(@semester, @classroom)
+  .clear
   #box_content
     - form_for [:admin, @subject] do |f|
       = f.error_messages
@@ -19,7 +27,7 @@
         %tr.even
           %th.form_title Klasa/Grupa
           %td.form_content
-            = select_tag :team_type_id, grouped_options_for_select(@team)
+            = select_tag :team_type_id, grouped_options_for_select(@team, @subject.team_type_id)
       = f.submit "Zapisz", :class => "submit"
     %br
-    = link_to 'Wstecz', session[:return_to]
+    = link_to 'Anuluj', admin_semester_classroom_subjects_path(@semester, @classroom)

@@ -4,13 +4,15 @@ class Admin::SubjectsController < ApplicationController
 
   def index
     @semester = Semester.choosen_or_current(params[:semester_id])
-    @subjects = @semester.subjects.all
+    @classroom = Classroom.find(params[:classroom_id])
+    @subjects = @semester.subjects.all(:conditions => { :team_id => @classroom.id, :team_type => "Classroom" })
     store_location
   end
 
   def new
     @semester = Semester.choosen_or_current(params[:semester_id])
-    @subject = @semester.subjects.new
+    @classroom = Classroom.find(params[:classroom_id])
+    @subject = @classroom.subjects.build(:semester => @semester)
   end
 
   def show
@@ -23,6 +25,7 @@ class Admin::SubjectsController < ApplicationController
   end
 
   def edit
+    @classroom = Classroom.find(params[:classroom_id])
   end
 
   def create
@@ -30,9 +33,11 @@ class Admin::SubjectsController < ApplicationController
     name,id = params[:team_type_id].split("_")
     @subject = Subject.new(params[:subject])
     @subject.team = name.classify.constantize.find(id)
+    @classroom = @subject.team
+    @semester = @subject.semester
     if @subject.save
       flash[:notice] = 'Przedmiot został dodany'
-      redirect_back_or_default(admin_subjects_path)
+      redirect_to admin_semester_classroom_subjects_path(@semester, @classroom)
     else
       render :action => 'new'
     end
@@ -41,9 +46,11 @@ class Admin::SubjectsController < ApplicationController
   def update
     name,id = params[:team_type_id].split("_")
     @subject.team = name.classify.constantize.find(id)
+    @classroom = @subject.team
+    @semester = @subject.semester
     if @subject.update_attributes(params[:subject])
       flash[:notice] = 'Przedmiot został zaktualizowany'
-      redirect_to admin_semester_subject_path(@semester, @subject)
+      redirect_to admin_semester_classroom_subject_path(@semester, @classroom, @subject)
     else
       render :action => 'edit'
     end
@@ -55,7 +62,7 @@ class Admin::SubjectsController < ApplicationController
     @orders = OrderOfTheDay.all(:order => 'start ASC')
     if @lecture.save
       flash[:notice] = 'Termin został dodany'
-      redirect_to timetable_admin_semester_subject_path(@semester, @subject)
+      redirect_to timetable_admin_semester_classroom_subject_path
     else
       render :action => 'timetable'
     end
@@ -67,7 +74,7 @@ class Admin::SubjectsController < ApplicationController
     else
       flash[:error] = 'Termin nie został usunięty'
     end
-    redirect_to timetable_admin_semester_subject_path(@semester, @subject)
+    redirect_to timetable_admin_semester_classroom_subject_path
   end
 
   private

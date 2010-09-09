@@ -1,6 +1,21 @@
 #box
   #box_title Przedmioty
+  %p{:style => "margin:6px"}= link_to "... powróć do listy klas", admin_classrooms_path
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane klasy", admin_classroom_path(@classroom)
+      %li= link_to "Uczniowie", students_admin_classroom_path(@classroom)
+      %li= link_to "Plan zajęć", schedule_admin_semester_classroom_path(@semester, @classroom)
+      %li.current= link_to "Przedmioty", admin_semester_classroom_subjects_path(@semester, @classroom)
+  .clear
   #box_content
+    %div{:style => "width:100%; text-align:center"}
+      %h2
+        - if !Semester.choosen_or_current_previous(params[:semester_id]).nil? && Semester.choosen_or_current_previous(params[:semester_id]).year >= @classroom.year
+          = link_to (image_tag 'admin/arrow-left.jpg'), admin_semester_classroom_subjects_path(Semester.choosen_or_current_previous(params[:semester_id]), @classroom)
+        %span{:style => "margin: 0 10px 0 10px"}= Semester.choosen_or_current(params[:semester_id]).year_and_semester
+        - if !Semester.choosen_or_current_next(params[:semester_id]).nil? && Semester.choosen_or_current_next(params[:semester_id]).year < @classroom.year + 3
+          = link_to (image_tag 'admin/arrow-right.jpg'), admin_semester_classroom_subjects_path(Semester.choosen_or_current_next(params[:semester_id]), @classroom)
     %h1 Przedmioty
     %table
       %tr
@@ -22,7 +37,7 @@
               - if subject.team_type == "Group"
                 = link_to (h subject.team.name_of_group + " (grupa)"), admin_semester_group_path(@semester, subject.team)
               - else
-                = link_to (subject.team.current_year(params[:semester_id]).to_s + subject.team.name_of_class + " (klasa)"), admin_semester_classroom_path(@semester, subject.team)
-          %td= link_to "Pokaż", admin_semester_subject_path(@semester,subject)
+                = link_to (subject.team.current_year(params[:semester_id]).to_s + subject.team.name_of_class + " (klasa)"), admin_classroom_path(subject.team)
+          %td= link_to "Pokaż", admin_semester_classroom_subject_path(@semester, @classroom, subject)
     %br
-    = link_to 'Dodaj przedmiot', new_admin_semester_subject_path(@semester)
+    = link_to 'Dodaj przedmiot', new_admin_semester_classroom_subject_path(@semester, @classroom)

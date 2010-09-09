@@ -15,7 +15,11 @@ ActionController::Routing::Routes.draw do |map|
                     :member => { :update_family_ties => :put, :update_classroom => :put, :update_group => :put }
     admin.resources :classrooms,
                     :collection => { :delete_user => :delete, :graduates => :get, :future => :get },
-                    :member => { :students => :get, :schedule => :get }
+                    :member => { :students => :get, :schedule => :get } do |classroom|
+      classroom.resources :subjects,
+                          :member => { :create_lecture => :post, :timetable => :get },
+                          :collection => { :delete_lecture => :delete }
+    end
     admin.resources :groups,
                     :collection => { :delete_user => :delete }
     admin.resource :preference,
@@ -26,12 +30,17 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :semesters, :collection => { :edit_change_semester => :get, :update_change_semester => :put } do |semester|
       semester.resources :classrooms,
                          :collection => { :delete_user => :delete, :graduates => :get, :future => :get },
-                         :member => { :students => :get, :schedule => :get }
-      semester.resources :groups,
-                         :collection => { :delete_user => :delete }
+                         :member => { :students => :get, :schedule => :get } do |classroom|
+        classroom.resources :subjects,
+                            :member => { :create_lecture => :post, :timetable => :get },
+                            :collection => { :delete_lecture => :delete }
+      end
       semester.resources :subjects,
                          :member => { :create_lecture => :post, :timetable => :get },
                          :collection => { :delete_lecture => :delete }
+
+      semester.resources :groups,
+                         :collection => { :delete_user => :delete }
     end
   end
 
