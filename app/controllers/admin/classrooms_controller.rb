@@ -71,8 +71,8 @@ class Admin::ClassroomsController < Admin::AdminController
   end
 
   def schedule
-    @semester = Semester.choosen_or_current(params[:semester_id])
     @classroom = Classroom.find(params[:id])
+    @semester = @classroom.current_semester(params[:semester_id])
     @orders = OrderOfTheDay.all(:order => "start ASC")
     @schedule = @classroom.subjects.all(:conditions => { :semester_id => @semester.id }).map(&:lectures).flatten
   end

@@ -3,8 +3,8 @@ class Admin::SubjectsController < ApplicationController
   before_filter :semestr_and_subject, :except => [ :index, :new, :create ]
 
   def index
-    @semester = Semester.choosen_or_current(params[:semester_id])
     @classroom = Classroom.find(params[:classroom_id])
+    @semester = @classroom.current_semester(params[:semester_id])
     @subjects = @semester.subjects.all(:conditions => { :team_id => @classroom.id, :team_type => "Classroom" })
     store_location
   end

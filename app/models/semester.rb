@@ -6,7 +6,7 @@ class Semester < ActiveRecord::Base
   validate :max_1_choosen_semester
 
   has_many :classrooms, :foreign_key => 'year', :primary_key => 'year'
-  has_many :groups, :foreign_key => 'year', :primary_key => 'year'
+  has_many :groups
   has_many :subjects
   has_many :groups
 
@@ -20,6 +20,13 @@ class Semester < ActiveRecord::Base
 
   def self.choosen_or_current semester_id
     Semester.find_by_id(semester_id) || self.current
+  end
+
+  def next
+    Semester.find_by_semester(self.semester%2+1, :conditions => { :year => self.year+(self.semester+1)%2 })
+  end
+  def previous
+    Semester.find_by_semester(self.semester%2+1, :conditions => { :year => self.year-(self.semester%2) })
   end
 
   def self.choosen_or_current_next semester_id

@@ -12,6 +12,17 @@ class Classroom < ActiveRecord::Base
 
   validates_uniqueness_of :name_of_class, :scope => :year
 
+  def current_semester semester_id
+    current_sem = Semester.choosen_or_current(semester_id)
+    if current_sem.year > self.year+2
+      Semester.find_by_semester(2, :conditions => { :year => self.year + 2 })
+    elsif current_sem.year < self.year
+      Semester.find_by_semester(1, :conditions => { :year => self.year })
+    else
+      current_sem
+    end
+  end
+
   def students
     self.users.select{|u| u.is_student?}
   end
