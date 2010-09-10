@@ -83,7 +83,7 @@ class Admin::SubjectsController < ApplicationController
   def class_group
     @semester = Semester.choosen_or_current(params[:semester_id])
     classrooms = @semester.classrooms_of_year(false).flatten.map{|cl| [cl.current_year(params[:semester_id]).to_s + cl.name_of_class, "Classroom_" + cl.id.to_s]}
-    groups = @semester.groups_of_year(false).flatten.map{|cl| [cl.name_of_group, "Groups_" + cl.id.to_s]}
+    groups = @semester.groups.map{|cl| [cl.name_of_group, "Groups_" + cl.id.to_s]}
     @team = [ [ 'Grupa', groups ], [ 'Klasa', classrooms ] ]
   end
   def semestr_and_subject

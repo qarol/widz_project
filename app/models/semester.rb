@@ -8,6 +8,7 @@ class Semester < ActiveRecord::Base
   has_many :classrooms, :foreign_key => 'year', :primary_key => 'year'
   has_many :groups, :foreign_key => 'year', :primary_key => 'year'
   has_many :subjects
+  has_many :groups
 
   def self.choosen
     Semester.find(:first, :conditions => { :active => true })
@@ -37,15 +38,6 @@ class Semester < ActiveRecord::Base
       result += (1..3).to_a.map{|n| Classroom.find(:all, :conditions => [ 'year = ?', self.year + 1 - n ], :order => 'name_of_class ASC')}
     else
       Classroom.find(:all, :conditions => [ 'year = ?', self.year + 1 - year ], :order => 'name_of_class ASC')
-    end
-  end
-  def groups_of_year null=true, year=nil
-    result = []
-    if year.nil?
-      result = [Group.find(:all, :conditions => [ 'year = ?', self.year + 1 ], :order => 'name_of_group ASC')] if null
-      result += (1..3).to_a.map{|n| Group.find(:all, :conditions => [ 'year = ?', self.year + 1 - n ], :order => 'name_of_group ASC')}
-    else
-      Group.find(:all, :conditions => [ 'year = ?', self.year + 1 - year ], :order => 'name_of_group ASC')
     end
   end
 
