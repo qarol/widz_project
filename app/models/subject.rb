@@ -14,6 +14,8 @@ class Subject < ActiveRecord::Base
   validates_presence_of :user_id
   validates_presence_of :team
 
+  named_scope :semester, lambda { |semester_id| { :conditions => { :semester_id => semester_id }}}
+
   def team_type_id
     self.team_type + "_" + self.team_id.to_s
   end

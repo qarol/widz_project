@@ -51,6 +51,13 @@ class User < ActiveRecord::Base
   # anything else you want your user to change should be added here.
   attr_accessible :login, :email, :name, :lastname, :password, :password_confirmation, :parent, :child
 
+  def subjects semester_id=nil
+    semester_id ||= Semester.choosen_or_current(semester_id)
+    result = self.groups.map(&:subject).compact.flatten.select{|s| s.semester_id == semester_id.id}
+    result += self.classroom.subjects.semester(semester_id.id) unless self.classroom.nil?
+    result
+  end
+
   def is_admin?
     self.roles.map(&:name).include?("admin")
   end

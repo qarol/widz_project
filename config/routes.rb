@@ -8,6 +8,12 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :session
 
+
+  map.student 'student', :controller => 'student/student'
+  map.namespace :student do |student|
+    student.resource :timetable 
+  end
+
   map.admin 'admin', :controller => 'admin/admin'
   map.namespace :admin do |admin|
     admin.resources :users,

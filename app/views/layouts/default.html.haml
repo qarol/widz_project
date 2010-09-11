@@ -47,6 +47,13 @@
                 %li= link_to "Grupy", admin_semester_groups_path(Semester.choosen)
                 %li= link_to "Ustawienia", edit_admin_preference_path
               = image_tag 'admin/bot.jpg', :class => "bot flt"
+            - if current_user.is_student?
+              = image_tag 'admin/top.jpg', :class => "top flt"
+              %ul.menu
+                %div{:style => "text-align:center; width:100%; color:white"}
+                  PANEL UCZNIA
+                %li= link_to "Plan zajęć", student_timetable_path
+              = image_tag 'admin/bot.jpg', :class => "bot flt"
         #side
           #content
             - if flash[:notice]
