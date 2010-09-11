@@ -1,0 +1,26 @@
+#box
+  #box_title Frekwencja
+  %p{:style => "margin:6px"}= link_to "... powróć do kalendarza", teacher_lectures_path(:first_day => LectureUnit.last_monday(@date))
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane zajęć", teacher_lecture_path(:date => @date)
+      %li.current= link_to "Frekwencja", attendances_teacher_lecture_path(:date => @date)
+  .clear
+  #box_content
+    %h1 Frekwencja na zajęciach
+    - form_for @lecture_unit, :url => update_attendances_teacher_lecture_path(:day => @date) do |f|
+      %table
+        %tr
+          %th{:style => "width:10%"} Nr
+          %th{:style => "width:80%"} Imię i nazwisko
+          %th{:style => "width:10%"} Nieobecność
+        - if @users.empty?
+          %tr
+            %td{:colspan => 3} brak
+        - else
+          - @users.each_with_index do |user, index|
+            %tr{:id => cycle('even','odd'), :style => "height: 30px"}
+              %td= index+1
+              %td= link_to h(user.name.capitalize + " " + user.lastname.capitalize), teacher_user_path(user)
+              %td= check_box_tag "lecture_unit[attendance_ids][]", user.id, @lecture_unit.attendances.map(&:user_id).include?(user.id)
+      = f.submit "Zapisz", :class => 'submit'

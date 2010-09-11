@@ -17,6 +17,14 @@ ActionController::Routing::Routes.draw do |map|
     student.resources :users, :only => [ :show ]
   end
 
+  map.teacher 'teacher', :controller => 'teacher/teacher'
+  map.namespace :teacher do |teacher|
+    teacher.resources :classrooms
+    teacher.resources :lectures,
+                      :member => { :attendances => :get, :update_attendances => :put }
+    teacher.resources :users, :only => [ :show ]
+  end
+
   map.admin 'admin', :controller => 'admin/admin'
   map.namespace :admin do |admin|
     admin.resources :users,

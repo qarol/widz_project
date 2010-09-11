@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   has_one :classroom_user
   has_one :classroom, :through => :classroom_user
   has_many :classroom_educators, :class_name => "Classroom", :foreign_key => :user_id
+  has_many :teach_subjects, :class_name => 'Subject'
+  has_many :attendances
 
   has_and_belongs_to_many :groups
 
@@ -51,6 +53,11 @@ class User < ActiveRecord::Base
   # anything else you want your user to change should be added here.
   attr_accessible :login, :email, :name, :lastname, :password, :password_confirmation, :parent, :child
 
+  def teacher_subjects semester_id=nil
+    semester_id ||= Semester.choosen_or_current(semester_id)
+    self.teach_subjects.semester(semester_id)
+  end
+  
   def subjects semester_id=nil
     semester_id ||= Semester.choosen_or_current(semester_id)
     result = self.groups.map(&:subject).compact.flatten.select{|s| s.semester_id == semester_id.id}

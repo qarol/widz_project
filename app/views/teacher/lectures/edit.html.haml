@@ -1,0 +1,17 @@
+#box
+  #box_title Plan zajęć
+  %p{:style => "margin:6px"}= link_to "... powróć do kalendarza", teacher_lectures_path(:first_day => LectureUnit.last_monday(@date))
+  .invertedshiftdown2
+    %ul
+      %li.current= link_to "Dane zajęć", teacher_lecture_path(:date => @date)
+      %li= link_to "Frekwencja", attendances_teacher_lecture_path(:date => @date)
+  .clear
+  #box_content
+    - form_for @lecture_unit, :url => teacher_lecture_path(:date => @date) do |f|
+      %table
+        %tr.odd
+          %th.form_title Temat zajęć
+          %td.form_content= f.text_field :topic
+      = f.submit "Zapisz", :class => 'submit'
+    %br
+    = link_to 'Anuluj', teacher_lecture_path(:date => @date)

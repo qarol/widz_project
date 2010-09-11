@@ -1,0 +1,26 @@
+#box
+  #box_title Plan zajęć
+  #box_content
+    %div{:style => "width:100%; text-align:center"}
+      %h2
+        = link_to (image_tag 'admin/arrow-left.jpg'), teacher_lectures_path(:first_day => LectureUnit.previous_monday(@first_day))
+        = link_to (image_tag 'admin/arrow-right.jpg'), teacher_lectures_path(:first_day => LectureUnit.next_monday(@first_day))
+    %table
+      %tr
+        %th{:style => "width: 9%"} Godzina
+        - 1.upto(7) do |dow|
+          %th{:style => "width: 13%"}= day_of_week(dow) + "<br>(" + short_day_month(@first_day - 1 + dow) + ")"
+      - for order in @orders do
+        %tr{:style => "height: 50px"}
+          %th= order.start.strftime("%H:%M")
+          - 1.upto(7) do |dow|
+            %td
+              - @lectures.select{|l| l.day_of_week == dow && l.order_of_the_day_id == order.id}.each do |lecture|
+                %a{:href => teacher_lecture_path}
+                  %b= lecture.subject_name_name
+                  %br
+                  - unless lecture.subject.team.blank?
+                    - if lecture.subject.team_type == "Group"
+                      = lecture.subject.team.name_of_group + " (grupa)"
+                    - else
+                      = lecture.subject.team.current_year(params[:semester_id]).to_s + lecture.subject.team.name_of_class + " (klasa)"

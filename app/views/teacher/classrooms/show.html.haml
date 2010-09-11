@@ -1,0 +1,37 @@
+#box
+  #box_title= "Klasa " + @classroom.name_of_class + " (" + @classroom.year.to_s + " - " + (@classroom.year+3).to_s + ")"
+  %p{:style => "margin:6px"}= link_to "... powróć do listy klas", admin_classrooms_path
+  .invertedshiftdown2
+    %ul
+      %li.current= link_to "Dane klasy", admin_classroom_path
+      %li= link_to "Uczniowie", students_admin_classroom_path
+      %li= link_to "Plan zajęć", schedule_admin_classroom_path
+      %li= link_to "Przedmioty", admin_classroom_subjects_path(@classroom)
+  .clear
+  #box_content
+    %table
+      %tr.odd
+        %th.form_title Sala:
+        %td.form_content= @classroom.hall
+      %tr.even
+        %th.form_title Rok szkolny, semestr
+        %td.form_content= @classroom.current_year(params[:semester_id])
+      %tr.odd
+        %th.form_title Nazwa klasy:
+        %td.form_content= @classroom.name_of_class
+      %tr.even
+        %th.form_title Rok rozpoczęcia nauki
+        %td.form_content= h @classroom.year
+      %tr.odd
+        %th.form_title Rok zakończenia nauki
+        %td.form_content= h (@classroom.year+3).to_s
+      %tr.even
+        %th.form_title Wychowawca:
+        %td.form_content= @classroom.educator_name.nil? ? "brak" : (link_to h(@classroom.educator_name + " " + @classroom.educator_lastname), admin_user_path(@classroom.educator))
+      %tr.odd
+        %th.form_title Liczba uczniów
+        %td.form_content= @classroom.students.size
+    %br
+    = link_to 'Zmień wartości parametrów', edit_admin_classroom_path(@user)
+    |
+    = link_to "Usuń klasę", admin_classroom_path(@classroom), :confirm => "Jesteś tego pewien?", :method => :delete

@@ -1,0 +1,21 @@
+#box
+  #box_title Dodaj nową klasę
+  #box_content
+    - form_for [:admin, @classroom] do |f|
+      = f.error_messages
+      %table
+        %tr.even
+          %th.form_title Sala:
+          %td.form_content= f.text_field :hall
+        %tr.odd
+          %th.form_title Nazwa klasy:
+          %td.form_content= f.text_field :name_of_class
+        %tr.even
+          %th.form_title Rok rozpoczęcia nauki
+          %td.form_content= f.select :year, (1990..((Date.today.year+2).to_i)).to_a
+        %tr.odd
+          %th.form_title Wychowawca:
+          %td.form_content= f.select :user_id, User.all.select{|u| u.is_teacher?}.map{|u| [u.name.capitalize + " " + u.lastname.capitalize + " (" + u.login + ")", u.id]}, :include_blank => '-- Wybierz wychowawcę --'
+      = f.submit "Zapisz", :class => 'submit'
+    %br
+    = link_to 'Anuluj', :back
