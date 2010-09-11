@@ -12,6 +12,9 @@ ActionController::Routing::Routes.draw do |map|
   map.student 'student', :controller => 'student/student'
   map.namespace :student do |student|
     student.resource :timetable 
+    student.resources :subjects,
+                      :member => { :timetable => :get }
+    student.resources :users, :only => [ :show ]
   end
 
   map.admin 'admin', :controller => 'admin/admin'

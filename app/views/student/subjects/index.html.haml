@@ -1,0 +1,17 @@
+#box
+  #box_title Przedmioty
+  #box_content
+    %h1 Przedmioty
+    %table
+      %tr
+        %th Nazwa
+        %th Nauczyciel
+        %th Pokaż
+      - if @subjects.blank?
+        %tr
+          %td{:colspan => 5} brak
+      - for subject in @subjects
+        %tr{:id => cycle('even','odd')}
+          %td= h subject.subject_name_name
+          %td= link_to (h subject.user_name + " " + (h subject.user_lastname)), student_user_path(subject.user)
+          %td= link_to "Pokaż", student_subject_path(subject)

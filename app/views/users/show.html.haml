@@ -2,27 +2,21 @@
   #box_title Moje dane
   #box_content
     %table
-      %tr#even
-        %td{:style => "width:200px; padding:10px; text-align:right"}
-          %b Imię i nazwisko
-        %td{:style => "padding:10px; text-align:left"}
-          =h @user.name + " " + @user.lastname
-      %tr#odd
-        %td{:style => "width:200px; padding:10px; text-align:right"}
-          %b Login
-        %td{:style => "padding:10px; text-align:left"}
-          =h @user.login
-      %tr#even
-        %td{:style => "width:200px; padding:10px; text-align:right"}
-          %b Email
-        %td{:style => "padding:10px; text-align:left"}
-          =h @user.email
-      %tr#odd
-        %td{:style => "width:200px; padding:10px; text-align:right"}
-          %b Należysz do grup
-        %td{:style => "padding:10px; text-align:left"}
-          =h current_user.roles.map(&:name).map{|i| human_role(i)}.sort.join(", ")
+      %tr.even
+        %th.form_title Imię i nazwisko
+        %td.form_content=h @user.name + " " + @user.lastname
+      %tr.odd
+        %th.form_title Login
+        %td.form_content=h @user.login
+      %tr.even
+        %th.form_title Email
+        %td.form_content=h @user.email
+      - if @user == current_user
+        %tr.odd
+          %th.form_title Należysz do grup
+          %td.form_content=h current_user.roles.map(&:name).map{|i| human_role(i)}.sort.join(", ")
     %br
     = link_to 'Wstecz', :back
-    |
-    = link_to 'Edytuj informacje', edit_users_path if @user == current_user
+    - if @user == current_user
+      |
+      = link_to 'Edytuj informacje', edit_users_path
