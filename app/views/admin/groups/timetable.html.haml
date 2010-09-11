@@ -1,0 +1,41 @@
+#box
+  #box_title Dane grupy
+  %p{:style => "margin:6px"}= link_to "... powróć do listy grup", admin_semester_groups_path
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane grupy", admin_semester_group_path
+      %li= link_to "Uczestnicy", users_admin_semester_group_path
+      %li.current= link_to "Terminarz", timetable_admin_semester_group_path
+  .clear
+  #box_content
+    %h1 Terminarz
+    - if @subject.nil?
+      Dodaj przedmiot do grupy,
+      = link_to 'kliknij tu', edit_admin_semester_group_path(@semester, @group)
+    - else
+      %table
+        %tr
+          %th{:style => "width: 9%"} Godzina
+          - 1.upto(7) do |dow|
+            %th{:style => "width: 13%"}= day_of_week(dow)
+        - for order in @orders do
+          %tr{:style => "height: 50px"}
+            %th= order.start.strftime("%H:%M")
+            - 1.upto(7) do |dow|
+              %td
+                - @lectures.select{|l| l.day_of_week == dow && l.order_of_the_day_id == order.id}.each do |lecture|
+                  %b= lecture.subject_name_name
+                  %br
+                  = lecture.user_name + " " + lecture.user_lastname
+                  %br
+                  = link_to "[usuń]", delete_lecture_admin_groups_path(:id => @group.id, :lecture_id  => lecture.id), :confirm => "Jesteś tego pewien?", :method => 'delete_lecture'
+      %br
+      - form_for [:admin, @lecture], :url => create_lecture_admin_semester_group_path do |f|
+        = f.error_messages
+        %table
+          %tr.odd
+            %th.form_title Dodaj nowy termin
+            %td.form_content
+              = f.select :day_of_week, [ ['Poniedziałek','1'], ['Wtorek','2'], ['Środa','3'], ['Czwartek','4'], ['Piątek','5'], ['Sobota','6'], ['Niedziela','7'] ]
+              = f.select :order_of_the_day_id, OrderOfTheDay.find(:all, :order => 'start ASC').map{|o| [o.start.strftime("%H:%M") + " - " + o.end.strftime("%H:%M"), o.id]}
+              = f.submit "Dodaj", :class => 'submit'

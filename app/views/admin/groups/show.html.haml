@@ -1,28 +1,28 @@
 #box
   #box_title Dane grupy
+  %p{:style => "margin:6px"}= link_to "... powróć do listy grup", admin_semester_groups_path
+  .invertedshiftdown2
+    %ul
+      %li.current= link_to "Dane grupy", admin_semester_group_path
+      %li= link_to "Uczestnicy", users_admin_semester_group_path
+      %li= link_to "Terminarz", timetable_admin_semester_group_path
+  .clear
   #box_content
     %table
       %tr.even
         %th.form_title Nazwa grupy
         %td.form_content= @group.name_of_group
       %tr.odd
+        %th.form_title Semestr
+        %td.form_content= (h @group.semester_school_year) + " (" + (h @group.semester_h_semester) + ")"
+      %tr.even
+        %th.form_title Przedmiot
+        %td.form_content= @subject.nil? ? "brak" : @subject.subject_name_name
+      %tr.odd
+        %th.form_title Nauczyciel
+        %td.form_content= @group.user.nil? ? "brak" : (link_to (h @group.user.name + " " + (h @group.user.lastname)), admin_user_path(@group.user))
+      %tr.even
         %th.form_title Liczba uczestników
         %td.form_content= @group.users.size.to_s
     %br
-    %h1 Osoby należące do grupy
-    %table
-      %tr
-        %th Nr
-        %th Imię i nazwisko
-      - if @users.empty?
-        %tr
-          %td{:colspan => 2} brak
-      - else
-        - @users.each_with_index do |user, index|
-          %tr{:id => cycle('even','odd')}
-            %td= index+1
-            %td= link_to h(user.name.capitalize + " " + user.lastname.capitalize), admin_user_path(user)
-    %br
-    = link_to 'Wstecz', admin_groups_path
-    |
-    = link_to 'Edytuj informacje', edit_admin_group_path(@group)
+    = link_to 'Edytuj informacje', edit_admin_semester_group_path(@semester, @group)

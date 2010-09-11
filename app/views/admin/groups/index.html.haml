@@ -1,12 +1,17 @@
 #box
   #box_title Grupy
   #box_content
+    %div{:style => "width:100%; text-align:center"}
+      %h2
+        = link_to (image_tag 'admin/arrow-left.jpg'), admin_semester_groups_path(@semester.previous, @classroom) unless @semester.previous.nil?
+        %span{:style => "margin: 0 10px 0 10px"}= @semester.year_and_semester
+        = link_to (image_tag 'admin/arrow-right.jpg'), admin_semester_groups_path(@semester.next, @classroom) unless @semester.next.nil?
+    %br
     %table
       %tr
         %th Nazwa grupy
         %th Liczba uczestników
         %th Pokaż
-        %th Edytuj
       - if @groups.blank?
         %tr
           %td{:colspan => 4} brak
@@ -15,9 +20,6 @@
           %tr{:id => cycle('even','odd')}
             %td= h group.name_of_group
             %td= h group.users.size
-            %td= link_to "Pokaż", admin_group_path(group)
-            %td= link_to "Edytuj", edit_admin_group_path(group)
+            %td= link_to "Pokaż", admin_semester_group_path(@semester, group)
     %br
-    = link_to 'Wstecz', :back
-    |
-    = link_to 'Dodaj grupę', new_admin_group_path
+    = link_to 'Dodaj grupę', new_admin_semester_group_path

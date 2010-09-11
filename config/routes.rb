@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
                           :collection => { :delete_lecture => :delete }
     end
     admin.resources :groups,
-                    :collection => { :delete_user => :delete }
+                    :collection => { :delete_user => :delete, :delete_lecture => :delete }
     admin.resource :preference,
                     :member => { :create_subject_name => :post, :destroy_subject_name => :delete }
     admin.resources :subjects,
@@ -40,7 +40,8 @@ ActionController::Routing::Routes.draw do |map|
                          :collection => { :delete_lecture => :delete }
 
       semester.resources :groups,
-                         :collection => { :delete_user => :delete }
+                         :collection => { :delete_user => :delete, :delete_lecture => :delete },
+                         :member => { :users => :get, :timetable => :get, :create_lecture => :post }
     end
   end
 

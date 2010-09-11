@@ -1,11 +1,14 @@
 #box
   #box_title Dodaj nową grupę
   #box_content
-    - form_for [:admin, @group] do |f|
+    - form_for [:admin, @semester, @group] do |f|
       %table
         %tr.even
           %th.form_title Nazwa grupy:
           %td.form_content= f.text_field :name_of_group
+        %tr.odd
+          %th.form_title Semestr
+          %td.form_content= f.select :semester_id, Semester.find(:all, :order => 'year DESC, semester DESC').map{|s| [s.year.to_s+"/"+(s.year+1).to_s+" "+s.h_semester, s.id]}, :include_blank => '-- Wybierz semestr --'
       = f.submit "Zapisz", :class => 'submit'
     %br
-    = link_to 'Wstecz', admin_groups_path
+    = link_to 'Wstecz', admin_semester_groups_path
