@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   has_one :classroom, :through => :classroom_user
   has_many :classroom_educators, :class_name => "Classroom", :foreign_key => :user_id
   has_many :teach_subjects, :class_name => 'Subject'
-  has_many :attendances
+  has_many :attendances, :conditions => "lecture_unit_id IS NOT NULL"
 
   has_and_belongs_to_many :groups
 

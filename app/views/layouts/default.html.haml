@@ -54,6 +54,7 @@
                   PANEL UCZNIA
                 %li= link_to "Plan zajęć", student_timetable_path
                 %li= link_to "Przedmioty", student_subjects_path
+                %li= link_to "Frekwencja", student_attendances_path
               = image_tag 'admin/bot.jpg', :class => "bot flt"
             - if current_user.is_teacher?
               = image_tag 'admin/top.jpg', :class => "top flt"

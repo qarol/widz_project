@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
     student.resources :subjects,
                       :member => { :timetable => :get }
     student.resources :users, :only => [ :show ]
+    student.resources :attendances
   end
 
   map.teacher 'teacher', :controller => 'teacher/teacher'
