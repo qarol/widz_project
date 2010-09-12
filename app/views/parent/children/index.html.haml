@@ -1,0 +1,20 @@
+#box
+  #box_title Dzieci
+  #box_content
+    %table
+      %tr
+        %th Login
+        %th E-mail
+        %th Imię
+        %th Nazwisko
+        %th Pokaż
+      - if @children.blank?
+        %tr
+          %td{:colspan => 5} brak
+      - for user in @children
+        %tr{:id => cycle('even','odd')}
+          %td= h user.login
+          %td= h user.email
+          %td= h user.name.capitalize
+          %td= h user.lastname.capitalize
+          %td= link_to "Pokaż", parent_child_path(user)

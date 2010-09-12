@@ -1,0 +1,31 @@
+#box
+  #box_title=h @user.name + " " + @user.lastname
+  %p{:style => "margin:6px"}= link_to "... powróć do listy potomków", parent_children_path
+  .invertedshiftdown2
+    %ul
+      %li.current= link_to "Dane ucznia", parent_child_path
+      %li= link_to "Frekwencja", attendances_parent_child_path
+      %li= link_to "Oceny", parent_child_path
+  .clear
+  #box_content
+    %table
+      %tr#even
+        %th.form_title Imię i nazwisko
+        %td.form_content
+          =h @user.name + " " + @user.lastname
+      %tr#odd
+        %th.form_title Login
+        %td.form_content
+          =h @user.login
+      %tr#even
+        %th.form_title Email:
+        %td.form_content
+          =h @user.email
+      %tr#odd
+        %th.form_title Klasa:
+        %td.form_content
+          = @user.classroom.nil? ? "brak" : @user.classroom.name_of_class
+      %tr#even
+        %th.form_title Grupa(-y):
+        %td.form_content
+          = @user.groups.blank? ? "brak" : @user.groups.map{|ce| ce.name_of_group}.join(", ")

@@ -64,6 +64,13 @@
                 %li= link_to "Plan zajęć", teacher_lectures_path
                 %li= link_to "Klasy", teacher_classrooms_path
               = image_tag 'admin/bot.jpg', :class => "bot flt"
+            - if current_user.is_parent?
+              = image_tag 'admin/top.jpg', :class => "top flt"
+              %ul.menu
+                %div{:style => "text-align:center; width:100%; color:white"}
+                  PANEL OPIEKUNA
+                %li= link_to "Dzieci", parent_children_path
+              = image_tag 'admin/bot.jpg', :class => "bot flt"
         #side
           #content
             - if flash[:notice]
