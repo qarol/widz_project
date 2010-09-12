@@ -5,6 +5,7 @@
     %ul
       %li.current= link_to "Dane przedmiotu", student_subject_path
       %li= link_to "Terminarz", timetable_student_subject_path
+      %li= link_to "Oceny", student_subject_marks_path(@subject)
   .clear
   #box_content
     %h1 Dane przedmiotu

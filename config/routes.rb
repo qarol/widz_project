@@ -13,7 +13,9 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace :student do |student|
     student.resource :timetable 
     student.resources :subjects,
-                      :member => { :timetable => :get }
+                      :member => { :timetable => :get } do |subject|
+      subject.resources :marks
+    end
     student.resources :users, :only => [ :show ]
     student.resources :attendances
   end
