@@ -1,0 +1,16 @@
+#box
+  #box_title Dodaj nową grupę ocen
+  #box_content
+    - form_for [:teacher, @subject, @event_mark], :url => teacher_subject_marks_path do |f|
+      = f.error_messages
+      = f.hidden_field :subject_id, :value => @subject.id
+      %table
+        %tr.even
+          %th.form_title Nazwa oceny
+          %td.form_content= f.text_field :content
+        %tr.odd
+          %th.form_title Waga oceny
+          %td.form_content= f.text_field :weight
+      = f.submit "Zapisz", :class => 'submit'
+    %br
+    = link_to 'Anuluj', :back

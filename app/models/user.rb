@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :classroom_educators, :class_name => "Classroom", :foreign_key => :user_id
   has_many :teach_subjects, :class_name => 'Subject'
   has_many :attendances, :conditions => "lecture_unit_id IS NOT NULL"
+  has_many :marks
 
   has_and_belongs_to_many :groups
 

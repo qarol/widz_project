@@ -1,0 +1,31 @@
+#box
+  #box_title= "Klasa " + @classroom.name_of_class + " (" + @classroom.year.to_s + " - " + (@classroom.year+3).to_s + ")"
+  %p{:style => "margin:6px"}= link_to "... powróć do listy klas i grup", teacher_subjects_path
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane klasy", teacher_subject_path(@subject)
+      %li.current= link_to "Oceny", teacher_subject_marks_path(@subject)
+  .clear
+  #box_content
+    %table
+      %tr
+        %th{:rowspan => 2} Nr
+        %th{:rowspan => 2} Imię i nazwisko
+        %th{:colspan => @event_marks.size} Oceny
+      %tr
+        - @event_marks.each do |event|
+          %td
+            = (link_to event.content, edit_teacher_subject_mark_path(@subject, event))
+            %br
+            = "(waga " + event.weight.to_s + ")"
+      - @users.each_with_index do |u, index|
+        %tr
+          %td= (index+1).to_s
+          %td= u.name + " " + u.lastname
+          - @event_marks.each do |event|
+            - if event.marks.find_by_user_id(u.id).first.nil? || event.marks.find_by_user_id(u.id).first.value == 0
+              %td brak
+            - else
+              %td= event.marks.find_by_user_id(u.id).first.value.to_s
+    %br
+    = link_to "Dodaj nową grupę ocen", new_teacher_subject_mark_path(@subject)

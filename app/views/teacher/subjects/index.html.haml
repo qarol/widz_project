@@ -1,0 +1,28 @@
+#box
+  #box_title Klasy i grupy
+  #box_content
+    - @classrooms_and_groups.each do |type, subject|
+      %h2= (type == "Classroom") ? "Klasy" : "Grupy"
+      - if type == "Classroom"
+        %table
+          %tr
+            %th Nazwa
+            %th Klasa
+            %th Pokaż
+          - subject.each do |s|
+            %tr
+              %td= s.subject_name.name
+              %td= s.team.current_year(params[:semester_id]).to_s + s.team.name_of_class
+              %td= link_to "Pokaż", teacher_subject_path(s)
+      - if type == "Group"
+        %table
+          %tr
+            %th Nazwa
+            %th Grupa
+            %th Pokaż
+          - subject.each do |s|
+            %tr
+              %td= s.subject_name.name
+              %td= s.team.name_of_group
+              %td= link_to "Pokaż", teacher_subject_path(s)
+        %br

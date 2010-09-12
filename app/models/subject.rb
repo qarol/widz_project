@@ -4,6 +4,7 @@ class Subject < ActiveRecord::Base
   belongs_to :team, :polymorphic => true
   belongs_to :subject_name
   has_many :lectures
+  has_many :event_marks
 
   delegate :name, :to => :subject_name, :prefix => true, :allow_nil => true
   delegate :year, :school_year, :h_semester, :to => :semester, :prefix => true, :allow_nil => true

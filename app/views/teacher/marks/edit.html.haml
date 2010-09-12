@@ -1,0 +1,24 @@
+#box
+  #box_title= "Klasa " + @classroom.name_of_class + " (" + @classroom.year.to_s + " - " + (@classroom.year+3).to_s + ")"
+  %p{:style => "margin:6px"}= link_to "... powróć do listy klas i grup", teacher_subjects_path
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane klasy", teacher_subject_path(@subject)
+      %li.current= link_to "Oceny", teacher_subject_marks_path(@subject)
+  .clear
+  #box_content
+    - form_for @event_mark, :url => teacher_subject_mark_path do |f|
+      = f.error_messages
+      %table
+        %tr
+          %th{:rowspan => 2} Nr
+          %th{:rowspan => 2} Imię i nazwisko
+          %th Oceny
+        %tr
+          %td= @event_mark.content
+        - @users.each_with_index do |u, index|
+          %tr
+            %td= (index+1).to_s
+            %td= u.name + " " + u.lastname
+            %td= text_field_tag "event_mark[marks_ids][#{u.id.to_s}]", (@event_mark.marks.find_by_user_id(u.id).first.nil?) ? "" : @event_mark.marks.find_by_user_id(u.id).first.value
+      = f.submit "Zapisz", :class => 'submit'

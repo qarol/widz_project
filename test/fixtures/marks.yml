@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user: 
+  content: MyText
+  value: 1
+  event_mark: 
+
+two:
+  user: 
+  content: MyText
+  value: 1
+  event_mark: 

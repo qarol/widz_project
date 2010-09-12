@@ -4,10 +4,10 @@ ActionController::Routing::Routes.draw do |map|
   map.register '/register', :controller => 'users', :action => 'create'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
   map.signup '/signup', :controller => 'users', :action => 'new'
+
   map.resource :users
 
   map.resource :session
-
 
   map.student 'student', :controller => 'student/student'
   map.namespace :student do |student|
@@ -20,10 +20,14 @@ ActionController::Routing::Routes.draw do |map|
 
   map.teacher 'teacher', :controller => 'teacher/teacher'
   map.namespace :teacher do |teacher|
-    teacher.resources :classrooms
+    teacher.resources :subjects do |subject|
+      subject.resources :marks
+    end
+
     teacher.resources :lectures,
                       :member => { :attendances => :get, :update_attendances => :put }
-    teacher.resources :users, :only => [ :show ]
+    teacher.resources :users
+    teacher.resources :groups
   end
 
   map.parent 'parent', :controller => 'parent/parent'
