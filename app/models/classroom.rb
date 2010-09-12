@@ -31,7 +31,7 @@ class Classroom < ActiveRecord::Base
     self.year.to_s + "/" + (self.year+1).to_s
   end
 
-  def current_year semester_id
+  def current_year semester_id=nil
     semester_year ||= Semester.choosen_or_current(semester_id).year
     result = semester_year - self.year + 1
     if result < 0

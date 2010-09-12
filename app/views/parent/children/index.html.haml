@@ -5,8 +5,8 @@
       %tr
         %th Login
         %th E-mail
-        %th Imię
-        %th Nazwisko
+        %th Imię i nazwisko
+        %th Klasa
         %th Pokaż
       - if @children.blank?
         %tr
@@ -15,6 +15,6 @@
         %tr{:id => cycle('even','odd')}
           %td= h user.login
           %td= h user.email
-          %td= h user.name.capitalize
-          %td= h user.lastname.capitalize
+          %td= h user.name.capitalize + " " + user.lastname.capitalize
+          %td= user.classroom.current_year.to_s + user.classroom.name_of_class unless user.classroom.nil?
           %td= link_to "Pokaż", parent_child_path(user)

@@ -24,7 +24,7 @@
       %tr#odd
         %th.form_title Klasa:
         %td.form_content
-          = @user.classroom.nil? ? "brak" : @user.classroom.name_of_class
+          = @user.classroom.nil? ? "brak" : @user.classroom.current_year.to_s +  @user.classroom.name_of_class
       %tr#even
         %th.form_title Grupa(-y):
         %td.form_content
