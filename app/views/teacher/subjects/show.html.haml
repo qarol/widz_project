@@ -1,31 +1,52 @@
 #box
-  #box_title= "Klasa " + @classroom.name_of_class + " (" + @classroom.year.to_s + " - " + (@classroom.year+3).to_s + ")"
+  - if @subject.team_type == "Classroom"
+    #box_title= "Klasa " + @team.name_of_class + " (" + @team.year.to_s + " - " + (@team.year+3).to_s + ")"
+  - if @subject.team_type == "Group"
+    #box_title= "Grupa " + @team.name_of_group
   %p{:style => "margin:6px"}= link_to "... powróć do listy klas i grup", teacher_subjects_path
   .invertedshiftdown2
     %ul
-      %li.current= link_to "Dane klasy", teacher_subject_path
+      %li.current= link_to "Dane #{ (@subject.team_type == "Classroom") ? 'klasy' : 'grupy'}", teacher_subject_path
       %li= link_to "Oceny", teacher_subject_marks_path(@subject)
   .clear
   #box_content
-    %table
-      %tr.odd
-        %th.form_title Sala:
-        %td.form_content= @classroom.hall
-      %tr.even
-        %th.form_title Rok szkolny, semestr
-        %td.form_content= @classroom.current_year(params[:semester_id])
-      %tr.odd
-        %th.form_title Nazwa klasy:
-        %td.form_content= @classroom.name_of_class
-      %tr.even
-        %th.form_title Rok rozpoczęcia nauki
-        %td.form_content= h @classroom.year
-      %tr.odd
-        %th.form_title Rok zakończenia nauki
-        %td.form_content= h (@classroom.year+3).to_s
-      %tr.even
-        %th.form_title Wychowawca:
-        %td.form_content= @classroom.educator_name.nil? ? "brak" : (link_to h(@classroom.educator_name + " " + @classroom.educator_lastname), teacher_user_path(@classroom.educator))
-      %tr.odd
-        %th.form_title Liczba uczniów
-        %td.form_content= @classroom.students.size
+    - if @subject.team_type == "Classroom"
+      %table
+        %tr.odd
+          %th.form_title Sala:
+          %td.form_content= @team.hall
+        %tr.even
+          %th.form_title Rok szkolny, semestr
+          %td.form_content= @team.current_year(params[:semester_id])
+        %tr.odd
+          %th.form_title Nazwa klasy:
+          %td.form_content= @team.name_of_class
+        %tr.even
+          %th.form_title Rok rozpoczęcia nauki
+          %td.form_content= h @team.year
+        %tr.odd
+          %th.form_title Rok zakończenia nauki
+          %td.form_content= h (@team.year+3).to_s
+        %tr.even
+          %th.form_title Wychowawca:
+          %td.form_content= @team.educator_name.nil? ? "brak" : (link_to h(@team.educator_name + " " + @team.educator_lastname), teacher_user_path(@team.educator))
+        %tr.odd
+          %th.form_title Liczba uczniów
+          %td.form_content= @team.students.size
+    - if @subject.team_type == "Group"
+      %table
+        %tr.even
+          %th.form_title Nazwa grupy
+          %td.form_content= @team.name_of_group
+        %tr.odd
+          %th.form_title Semestr
+          %td.form_content= (h @team.semester_school_year) + " (" + (h @team.semester_h_semester) + ")"
+        %tr.even
+          %th.form_title Przedmiot
+          %td.form_content= @subject.nil? ? "brak" : @subject.subject_name_name
+        %tr.odd
+          %th.form_title Nauczyciel
+          %td.form_content= @team.user.nil? ? "brak" : (link_to (h @team.user.name + " " + (h @team.user.lastname)), admin_user_path(@team.user))
+        %tr.even
+          %th.form_title Liczba uczestników
+          %td.form_content= @team.users.size.to_s

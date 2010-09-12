@@ -1,5 +1,8 @@
 #box
-  #box_title= "Klasa " + @classroom.name_of_class + " (" + @classroom.year.to_s + " - " + (@classroom.year+3).to_s + ")"
+  - if @subject.team_type == "Classroom"
+    #box_title= "Klasa " + @team.name_of_class + " (" + @team.year.to_s + " - " + (@team.year+3).to_s + ")"
+  - if @subject.team_type == "Group"
+    #box_title= "Grupa " + @team.name_of_group
   %p{:style => "margin:6px"}= link_to "... powróć do listy klas i grup", teacher_subjects_path
   .invertedshiftdown2
     %ul

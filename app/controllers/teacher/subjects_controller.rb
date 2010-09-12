@@ -8,6 +8,6 @@ class Teacher::SubjectsController < Teacher::TeacherController
   def show
     @semester = Semester.choosen_or_current(params[:semester_id])
     @subject = Subject.find(params[:id])
-    @classroom = @subject.team
+    @team = @subject.team
   end
 end

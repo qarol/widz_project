@@ -11,4 +11,7 @@ class Group < ActiveRecord::Base
   def user
     self.subject.user unless self.subject.nil?
   end
+  def students
+    self.users.select{|u| u.is_student? }
+  end
 end
