@@ -1,0 +1,25 @@
+#box
+  #box_title= "Klasa " + @classroom.name_of_class + " (" + @classroom.year.to_s + " - " + (@classroom.year+3).to_s + ")"
+  %p{:style => "margin:6px"}= link_to "... powróć do listy klas", admin_classrooms_path
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane klasy", teacher_classroom_path(@classroom)
+      %li= link_to "Uczniowie", students_teacher_classroom_path(@classroom)
+      %li= link_to "Plan zajęć", schedule_teacher_classroom_path(@classroom)
+      %li.current= link_to "Przedmioty", teacher_classroom_lessons_path(@classroom)
+  .clear
+  #box_content
+    %h1 Przedmioty
+    %table
+      %tr
+        %th Nazwa
+        %th Nauczyciel
+        %th Pokaż
+      - if @subjects.blank?
+        %tr
+          %td{:colspan => 5} brak
+      - for subject in @subjects
+        %tr{:id => cycle('even','odd')}
+          %td= h subject.subject_name_name
+          %td= link_to (h subject.user_name + " " + (h subject.user_lastname)), teacher_user_path(subject.user)
+          %td= link_to "Pokaż", teacher_classroom_lesson_path(@classroom, subject)

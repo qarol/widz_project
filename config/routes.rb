@@ -28,7 +28,15 @@ ActionController::Routing::Routes.draw do |map|
     teacher.resources :lectures,
                       :member => { :attendances => :get, :update_attendances => :put }
     teacher.resources :users
+    teacher.resources :persons,
+                      :member => { :attendances => :get, :timetable => :get }
     teacher.resources :groups
+    teacher.resources :classrooms,
+                      :member => { :students => :get, :schedule => :get } do |classroom|
+      classroom.resources :lessons,
+                          :member => { :create_lecture => :post, :timetable => :get, :rate => :get },
+                          :collection => { :delete_lecture => :delete }
+    end
   end
 
   map.parent 'parent', :controller => 'parent/parent'

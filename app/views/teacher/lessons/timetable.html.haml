@@ -1,0 +1,25 @@
+#box
+  #box_title Dane przedmiotu
+  %p{:style => "margin:6px"}= link_to "... powróć do listy przedmiotów", teacher_classroom_lessons_path(@classroom)
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane przedmiotu", teacher_classroom_lesson_path
+      %li.current= link_to "Terminarz", timetable_teacher_classroom_lesson_path
+      %li= link_to "Oceny", rate_teacher_classroom_lesson_path
+  .clear
+  #box_content
+    %h1 Terminarz
+    %table
+      %tr
+        %th{:style => "width: 9%"} Godzina
+        - 1.upto(7) do |dow|
+          %th{:style => "width: 13%"}= day_of_week(dow)
+      - for order in @orders do
+        %tr{:style => "height: 50px"}
+          %th= order.start.strftime("%H:%M")
+          - 1.upto(7) do |dow|
+            %td
+              - @lectures.select{|l| l.day_of_week == dow && l.order_of_the_day_id == order.id}.each do |lecture|
+                %b= lecture.subject_name_name
+                %br
+                = lecture.user_name + " " + lecture.user_lastname

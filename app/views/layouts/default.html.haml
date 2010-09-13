@@ -63,6 +63,7 @@
                   PANEL NAUCZYCIELA
                 %li= link_to "Plan zajęć", teacher_lectures_path
                 %li= link_to "Klasy i grupy", teacher_subjects_path
+                %li= link_to "Wychowawstwo", teacher_classrooms_path unless current_user.classrooms.blank?
               = image_tag 'admin/bot.jpg', :class => "bot flt"
             - if current_user.is_parent?
               = image_tag 'admin/top.jpg', :class => "top flt"

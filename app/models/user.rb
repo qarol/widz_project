@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   # relacje uczeń-klasa
   has_one :classroom_user
   has_one :classroom, :through => :classroom_user
+  has_many :classrooms
   has_many :classroom_educators, :class_name => "Classroom", :foreign_key => :user_id
   has_many :teach_subjects, :class_name => 'Subject'
   has_many :attendances, :conditions => "lecture_unit_id IS NOT NULL"

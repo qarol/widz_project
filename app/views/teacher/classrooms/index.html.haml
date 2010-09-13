@@ -1,0 +1,21 @@
+#box
+  #box_title Wychowawstwo
+  #box_content
+    %table
+      %tr
+        %th Nazwa klasy
+        %th Lata nauki
+        %th Liczba uczniów
+        %th Nr sali
+        %th Pokaż
+      - if @classrooms.blank?
+        %tr
+          %td{:colspan => 6} brak
+      - else
+        - for classroom in @classrooms
+          %tr{:id => cycle('even','odd')}
+            %td= h classroom.name_of_class
+            %td= (h classroom.year.to_s) + " - " + (classroom.year+3).to_s
+            %td= classroom.students.size
+            %td= h classroom.hall
+            %td= link_to "Pokaż", teacher_classroom_path(classroom)

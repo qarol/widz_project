@@ -1,0 +1,24 @@
+#box
+  #box_title= "Klasa " + @classroom.name_of_class + " (" + @classroom.year.to_s + " - " + (@classroom.year+3).to_s + ")"
+  %p{:style => "margin:6px"}= link_to "... powróć do listy klas", teacher_classrooms_path
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane klasy", teacher_classroom_path
+      %li.current= link_to "Uczniowie", students_teacher_classroom_path
+      %li= link_to "Plan zajęć", schedule_teacher_classroom_path
+      %li= link_to "Przedmioty", teacher_classroom_lessons_path(@classroom)
+  .clear
+  #box_content
+    %h1 Uczniowe należący do klasy
+    %table
+      %tr
+        %th{:style => "width:10%"} Nr
+        %th{:style => "width:80%"} Imię i nazwisko
+      - if @users.empty?
+        %tr
+          %td{:colspan => 3} brak
+      - else
+        - @users.each_with_index do |user, index|
+          %tr{:id => cycle('even','odd'), :style => "height: 30px"}
+            %td= index+1
+            %td= link_to h(user.name.capitalize + " " + user.lastname.capitalize), teacher_person_path(user)

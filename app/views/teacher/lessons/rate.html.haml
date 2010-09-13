@@ -1,0 +1,33 @@
+#box
+  - if @subject.team_type == "Classroom"
+    #box_title= "Klasa " + @team.name_of_class + " (" + @team.year.to_s + " - " + (@team.year+3).to_s + ")"
+  - if @subject.team_type == "Group"
+    #box_title= "Grupa " + @team.name_of_group
+  %p{:style => "margin:6px"}= link_to "... powróć do listy przedmiotów", teacher_classroom_lessons_path(@classroom)
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane przedmiotu", teacher_classroom_lesson_path
+      %li= link_to "Terminarz", timetable_teacher_classroom_lesson_path
+      %li.current= link_to "Oceny", rate_teacher_classroom_lesson_path
+  .clear
+  #box_content
+    %table
+      %tr
+        %th{:rowspan => 2} Nr
+        %th{:rowspan => 2} Imię i nazwisko
+        %th{:colspan => @event_marks.size} Oceny
+      %tr
+        - @event_marks.each do |event|
+          %td
+            %b= event.content
+            %br
+            = "(waga " + event.weight.to_s + ")"
+      - @users.each_with_index do |u, index|
+        %tr
+          %td= (index+1).to_s
+          %td= u.name + " " + u.lastname
+          - @event_marks.each do |event|
+            - if event.marks.find_by_user_id(u.id).first.nil? || event.marks.find_by_user_id(u.id).first.value == 0
+              %td brak
+            - else
+              %td= event.marks.find_by_user_id(u.id).first.value.to_s

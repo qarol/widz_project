@@ -1,0 +1,29 @@
+#box
+  #box_title=h @user.name + " " + @user.lastname
+  %p{:style => "margin:6px"}= link_to "... powróć do listy uczniów", students_teacher_classroom_path(@classroom)
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane ucznia", teacher_person_path
+      %li.current= link_to "Frekwencja", attendances_teacher_person_path
+      %li= link_to "Plan lekcji", timetable_teacher_person_path
+  .clear
+  #box_content
+    %h1 Nieobecności
+    %br
+    - if @attendances.empty?
+      Brak nieobecności
+    - @attendances.group_by(&:lecture_unit_date).sort.each do |date, attendance|
+      %h2= date.to_s
+      %table
+        %tr
+          %th Godzina
+          %th Przedmiot
+          %th Nauczyciel
+          %th Usprawiedliwione
+        - attendance.each do |a|
+          %tr
+            %td= a.lecture_unit.lecture.order_of_the_day.start.strftime("%H:%M")
+            %td= a.lecture_unit.lecture.subject.subject_name.name
+            %td= a.lecture_unit.lecture.subject.user.name + " " + a.lecture_unit.lecture.subject.user.lastname
+            %td= image_tag ((a.excuse) ? "admin/success.png" : "admin/fail.png")
+      %br
