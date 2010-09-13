@@ -12,4 +12,10 @@ class Parent::ChildrenController < Parent::ParentController
     @attendances = @user.attendances
   end
 
+  def timetable
+    @user = User.find(params[:id])
+    @lectures = @user.subjects.map(&:lectures).flatten
+    @orders = OrderOfTheDay.all(:order => 'start ASC')
+  end
+
 end
