@@ -25,5 +25,7 @@
             %td= a.lecture_unit.lecture.order_of_the_day.start.strftime("%H:%M")
             %td= a.lecture_unit.lecture.subject.subject_name.name
             %td= a.lecture_unit.lecture.subject.user.name + " " + a.lecture_unit.lecture.subject.user.lastname
-            %td= image_tag ((a.excuse) ? "admin/success.png" : "admin/fail.png")
+            %td
+              = image_tag ((a.excuse) ? "admin/success.png" : "admin/fail.png")
+              = link_to "[usprawiedliw]", absence_teacher_person_path(:attendance_id => a.id), :confirm => "Czy na pewno chcesz usprawiedliwić godzinę?" unless a.excuse
       %br

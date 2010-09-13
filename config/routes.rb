@@ -29,7 +29,7 @@ ActionController::Routing::Routes.draw do |map|
                       :member => { :attendances => :get, :update_attendances => :put }
     teacher.resources :users
     teacher.resources :persons,
-                      :member => { :attendances => :get, :timetable => :get }
+                      :member => { :attendances => :get, :timetable => :get, :absence => :get }
     teacher.resources :groups
     teacher.resources :classrooms,
                       :member => { :students => :get, :schedule => :get } do |classroom|

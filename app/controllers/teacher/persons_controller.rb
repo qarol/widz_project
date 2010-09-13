@@ -17,4 +17,15 @@ class Teacher::PersonsController < Teacher::TeacherController
     @orders = OrderOfTheDay.all(:order => 'start ASC')
   end
 
+  def absence
+    @user = User.find(params[:id])
+    attendance = Attendance.find(params[:attendance_id])
+    if attendance.update_attributes(:excuse => true)
+      flash[:notice] = "Usprawiedliwiono godzinę"
+    else
+      flash[:error] = 'Nie usprawiedliwiono godziny'
+    end
+    redirect_to attendances_teacher_person_path
+  end
+
 end
