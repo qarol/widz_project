@@ -42,7 +42,7 @@ ActionController::Routing::Routes.draw do |map|
   map.parent 'parent', :controller => 'parent/parent'
   map.namespace :parent do |parent|
     parent.resources :children,
-                     :member => { :attendances => :get, :timetable => :get } do |child|
+                     :member => { :attendances => :get, :timetable => :get, :absence => :get } do |child|
       child.resources :subjects,
                       :member => { :timetable => :get } do |subject|
         subject.resources :marks

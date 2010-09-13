@@ -18,4 +18,15 @@ class Parent::ChildrenController < Parent::ParentController
     @orders = OrderOfTheDay.all(:order => 'start ASC')
   end
 
+  def absence
+    @user = User.find(params[:id])
+    attendance = Attendance.find(params[:attendance_id])
+    if attendance.update_attributes(:excuse => true)
+      flash[:notice] = "Usprawiedliwiono godzinę"
+    else
+      flash[:error] = 'Nie usprawiedliwiono godziny'
+    end
+    redirect_to attendances_parent_child_path
+  end
+
 end
