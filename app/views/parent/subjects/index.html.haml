@@ -1,0 +1,24 @@
+#box
+  #box_title=h @user.name + " " + @user.lastname
+  %p{:style => "margin:6px"}= link_to "... powróć do listy potomków", parent_children_path
+  .invertedshiftdown2
+    %ul
+      %li= link_to "Dane ucznia", parent_child_path(@user)
+      %li= link_to "Frekwencja", attendances_parent_child_path(@user)
+      %li.current= link_to "Przedmioty", parent_child_subjects_path(@user)
+  .clear
+  #box_content
+    %h1 Przedmioty
+    %table
+      %tr
+        %th Nazwa
+        %th Nauczyciel
+        %th Pokaż
+      - if @subjects.blank?
+        %tr
+          %td{:colspan => 5} brak
+      - for subject in @subjects
+        %tr{:id => cycle('even','odd')}
+          %td= h subject.subject_name_name
+          %td= link_to (h subject.user_name + " " + (h subject.user_lastname)), parent_user_path(subject.user)
+          %td= link_to "Pokaż", parent_child_subject_path(@user,subject)

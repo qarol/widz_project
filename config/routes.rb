@@ -25,7 +25,6 @@ ActionController::Routing::Routes.draw do |map|
     teacher.resources :subjects do |subject|
       subject.resources :marks
     end
-
     teacher.resources :lectures,
                       :member => { :attendances => :get, :update_attendances => :put }
     teacher.resources :users
@@ -35,7 +34,13 @@ ActionController::Routing::Routes.draw do |map|
   map.parent 'parent', :controller => 'parent/parent'
   map.namespace :parent do |parent|
     parent.resources :children,
-                     :member => { :attendances => :get }
+                     :member => { :attendances => :get } do |child|
+      child.resources :subjects,
+                      :member => { :timetable => :get } do |subject|
+        subject.resources :marks
+      end
+    end
+    parent.resources :users, :only => [ :show ]
   end
 
   map.admin 'admin', :controller => 'admin/admin'
